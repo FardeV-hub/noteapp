@@ -1,0 +1,115 @@
+<Window x:Class="NoteApp.CommunityWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Community" Height="720" Width="700"
+        WindowStartupLocation="CenterOwner" Background="#13151c"
+        ResizeMode="CanResize" MinWidth="500" MinHeight="450">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <Border Grid.Row="0" Padding="20,16">
+            <Border.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                    <GradientStop Color="#1a1d28" Offset="0"/>
+                    <GradientStop Color="#1e2235" Offset="1"/>
+                </LinearGradientBrush>
+            </Border.Background>
+            <Grid>
+                <StackPanel>
+                    <TextBlock Text="Community" FontSize="18" FontWeight="Bold" Foreground="#d8dae2"/>
+                    <TextBlock x:Name="lblInfo" FontSize="11" Foreground="#7d8298" Margin="0,3,0,0"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                    <TextBlock x:Name="lblServer" FontSize="11" Foreground="#7d8298"
+                               VerticalAlignment="Center" Margin="0,0,10,0"/>
+                    <Button x:Name="btnServer" Content="เปิดแชร์" Click="ToggleServer_Click"
+                            Padding="14,7" FontSize="12" FontWeight="SemiBold"
+                            Background="#7b93f7" Foreground="White"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <TabControl Grid.Row="1" Background="#13151c" BorderBrush="#272b38" Foreground="#d8dae2">
+            <!-- Feed -->
+            <TabItem FontSize="13" FontWeight="Medium">
+                <TabItem.Header>
+                    <TextBlock Text="โพสต์ทั้งหมด" VerticalAlignment="Center"/>
+                </TabItem.Header>
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Background="#13151c">
+                    <StackPanel x:Name="panelFeed" Margin="14"/>
+                </ScrollViewer>
+            </TabItem>
+
+            <!-- New Post -->
+            <TabItem FontSize="13" FontWeight="Medium">
+                <TabItem.Header>
+                    <TextBlock Text="โพสต์ใหม่" VerticalAlignment="Center"/>
+                </TabItem.Header>
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Background="#13151c">
+                    <StackPanel Margin="14" MaxWidth="520">
+                        <TextBlock Text="สร้างโพสต์ใหม่" FontSize="16" FontWeight="Bold"
+                                   Foreground="#d8dae2" Margin="0,0,0,16"/>
+
+                        <TextBlock Text="หมวดหมู่" Foreground="#7d8298" FontSize="11" Margin="0,0,0,5" FontWeight="Medium"/>
+                        <ComboBox x:Name="cmbPostCat" FontSize="13" Padding="8">
+                            <ComboBoxItem Content="ทั่วไป" IsSelected="True"/>
+                            <ComboBoxItem Content="ถามตอบ"/>
+                            <ComboBoxItem Content="แชร์ไอเดีย"/>
+                            <ComboBoxItem Content="ช่วยเหลือ"/>
+                            <ComboBoxItem Content="แนะนำ"/>
+                            <ComboBoxItem Content="พูดคุย"/>
+                        </ComboBox>
+
+                        <TextBlock Text="หัวข้อ" Foreground="#7d8298" FontSize="11" Margin="0,12,0,5" FontWeight="Medium"/>
+                        <TextBox x:Name="txtPostTitle" FontSize="14" Padding="10"
+                                 Background="#272b38" Foreground="#d8dae2" BorderBrush="#303345" BorderThickness="1"/>
+
+                        <TextBlock Text="เนื้อหา" Foreground="#7d8298" FontSize="11" Margin="0,12,0,5" FontWeight="Medium"/>
+                        <TextBox x:Name="txtPostContent" FontSize="13" Padding="12" MinHeight="140"
+                                 AcceptsReturn="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto"
+                                 Background="#272b38" Foreground="#d8dae2" BorderBrush="#303345" BorderThickness="1"/>
+
+                        <Button Content="โพสต์" Click="CreatePost_Click" Margin="0,16,0,0"
+                                Padding="20,10" FontSize="14" FontWeight="SemiBold"
+                                Background="#7b93f7" Foreground="White" HorizontalAlignment="Left"/>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+            <!-- Share -->
+            <TabItem FontSize="13" FontWeight="Medium">
+                <TabItem.Header>
+                    <TextBlock Text="แชร์ออนไลน์" VerticalAlignment="Center"/>
+                </TabItem.Header>
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Background="#13151c">
+                    <StackPanel Margin="14" MaxWidth="520">
+                        <TextBlock Text="แชร์ Community ผ่าน WiFi" FontSize="16" FontWeight="Bold"
+                                   Foreground="#d8dae2" Margin="0,0,0,6"/>
+                        <TextBlock Text="เปิดให้คนในเครือข่ายเดียวกันเข้ามาอ่านและโพสต์ผ่าน Browser ได้"
+                                   FontSize="12" Foreground="#7d8298" Margin="0,0,0,16" TextWrapping="Wrap"/>
+
+                        <Border Background="#1c1f2a" CornerRadius="10" Padding="16" Margin="0,0,0,12">
+                            <StackPanel>
+                                <TextBlock Text="สถานะ" FontSize="14" FontWeight="SemiBold" Foreground="#7b93f7" Margin="0,0,0,8"/>
+                                <TextBlock x:Name="lblServerDetail" FontSize="12" Foreground="#7d8298" TextWrapping="Wrap"/>
+                            </StackPanel>
+                        </Border>
+
+                        <Border Background="#1c1f2a" CornerRadius="10" Padding="16">
+                            <StackPanel>
+                                <TextBlock Text="วิธีใช้" FontSize="14" FontWeight="SemiBold" Foreground="#7b93f7" Margin="0,0,0,8"/>
+                                <TextBlock FontSize="12" Foreground="#9a9db0" TextWrapping="Wrap" LineHeight="22"
+                                           Text="1. กดปุ่ม 'เปิดแชร์' ด้านบน&#x0a;2. แจ้ง URL ให้เพื่อนในเครือข่ายเดียวกัน&#x0a;3. เพื่อนเปิด Browser พิมพ์ URL แล้วเข้าใช้ได้เลย&#x0a;4. ทุกคนโพสต์และตอบกลับได้ real-time&#x0a;5. ข้อมูลเก็บในเครื่องของคุณ"/>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>

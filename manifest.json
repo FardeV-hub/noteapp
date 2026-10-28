@@ -1,0 +1,27 @@
+{
+  "name": "Note App",
+  "short_name": "NoteApp",
+  "description": "All-in-One Productivity Suite — โน้ต, การเงิน, ห้องประชุม, AI, บ้านอัจฉริยะ",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#0f0f1a",
+  "theme_color": "#6c63ff",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["productivity", "finance", "utilities"],
+  "lang": "th",
+  "dir": "ltr"
+}

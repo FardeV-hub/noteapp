@@ -1,0 +1,50 @@
+<Window x:Class="NoteApp.CalendarWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="ปฏิทินรวม" Height="620" Width="750"
+        WindowStartupLocation="CenterOwner" Background="#0f1018"
+        ResizeMode="CanResize" MinWidth="600" MinHeight="450">
+    <Grid Margin="12">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <Border Grid.Row="0" CornerRadius="6" Margin="0,0,0,8">
+            <Border.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                    <GradientStop Color="#161828" Offset="0"/>
+                    <GradientStop Color="#1c1e35" Offset="1"/>
+                </LinearGradientBrush>
+            </Border.Background>
+            <Grid>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                    <Button Content="◀" Click="PrevMonth_Click" Padding="10,4" FontSize="16"
+                            Background="#2a2d45" Foreground="#e8e9f0" BorderThickness="0" Cursor="Hand"/>
+                    <TextBlock x:Name="lblMonth" FontSize="18" FontWeight="Bold" Foreground="#e8e9f0"
+                               VerticalAlignment="Center" Margin="14,0"/>
+                    <Button Content="▶" Click="NextMonth_Click" Padding="10,4" FontSize="16"
+                            Background="#2a2d45" Foreground="#e8e9f0" BorderThickness="0" Cursor="Hand"/>
+                    <Button Content="วันนี้" Click="Today_Click" Padding="12,4" FontSize="12" Margin="12,0,0,0"
+                            Background="#6c63ff" Foreground="White" BorderThickness="0" Cursor="Hand"/>
+                </StackPanel>
+                <TextBlock x:Name="lblSummary" FontSize="11" Foreground="#8b8fa7"
+                           HorizontalAlignment="Right" VerticalAlignment="Center"/>
+            </Grid>
+        </Border>
+
+        <!-- Day headers -->
+        <Grid Grid.Row="1" x:Name="gridDayHeaders" Margin="0,0,0,4"/>
+
+        <!-- Calendar grid -->
+        <Grid Grid.Row="2" x:Name="gridCalendar"/>
+
+        <!-- Day detail -->
+        <Border Grid.Row="3" x:Name="borderDetail" Background="#161828" CornerRadius="10" Padding="12" Margin="0,8,0,0" Visibility="Collapsed">
+            <StackPanel x:Name="panelDetail"/>
+        </Border>
+    </Grid>
+</Window>

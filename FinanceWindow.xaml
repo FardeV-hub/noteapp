@@ -1,0 +1,257 @@
+<Window x:Class="NoteApp.FinanceWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="ระบบการเงิน" Height="720" Width="900"
+        WindowStartupLocation="CenterOwner" Background="#0f1018"
+        ResizeMode="CanResize" MinWidth="700" MinHeight="500">
+
+    <Grid Margin="12">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <Border Grid.Row="0" Padding="20,16">
+            <Border.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                    <GradientStop Color="#161828" Offset="0"/>
+                    <GradientStop Color="#1c1e35" Offset="1"/>
+                </LinearGradientBrush>
+            </Border.Background>
+            <Grid>
+                <StackPanel Orientation="Horizontal">
+                    <StackPanel VerticalAlignment="Center">
+                        <TextBlock x:Name="lblHeader" Text="Finance Hub" FontSize="18" FontWeight="Bold" Foreground="#e8e9f0"/>
+                        <TextBlock Text="ระบบจัดการการเงิน" FontSize="11" Foreground="#5a5d78" Margin="0,3,0,0"/>
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                    <TextBlock x:Name="lblMarketStatus" FontSize="11" Foreground="#8b8fa7" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                    <Button Content="🔄 อัพเดทตลาด" Click="RefreshMarket_Click"
+                            Padding="12,6" FontSize="12" Background="#0984e3" Foreground="White" BorderThickness="0" Cursor="Hand"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <TabControl Grid.Row="1" Background="#0f1018" BorderBrush="#2a2d45" Foreground="#e8e9f0">
+
+            <!-- Tab: สรุปภาพรวม -->
+            <TabItem FontSize="13" FontWeight="SemiBold">
+                <TabItem.Header>
+                    <TextBlock Text="ภาพรวม" VerticalAlignment="Center"/>
+                </TabItem.Header>
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Background="#0f1018">
+                    <StackPanel x:Name="panelOverview" Margin="12"/>
+                </ScrollViewer>
+            </TabItem>
+
+            <!-- Tab: รายรับ-รายจ่าย -->
+            <TabItem FontSize="13" FontWeight="SemiBold">
+                <TabItem.Header>
+                    <TextBlock Text="รายรับ-จ่าย" VerticalAlignment="Center"/>
+                </TabItem.Header>
+                <Grid Background="#0f1018">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Form -->
+                    <Border Grid.Row="0" Background="#161828" CornerRadius="10" Padding="14" Margin="8,8,8,4">
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <RadioButton x:Name="rbIncome" Content="💵 รายรับ" FontSize="13" Foreground="#27ae60" Margin="0,0,16,0" GroupName="txType"/>
+                                <RadioButton x:Name="rbExpense" Content="💸 รายจ่าย" FontSize="13" Foreground="#e74c3c" IsChecked="True" GroupName="txType"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
+                                <TextBox x:Name="txtTxTitle" Width="200" FontSize="13" Padding="6" Background="#2a2d45" Foreground="#e8e9f0" BorderBrush="#2a2d45"/>
+                                <TextBox x:Name="txtTxAmount" Width="120" FontSize="13" Padding="6" Margin="8,0" Background="#2a2d45" Foreground="#e8e9f0" BorderBrush="#2a2d45"/>
+                                <ComboBox x:Name="cmbTxCategory" Width="120" FontSize="12" Padding="6"/>
+                                <DatePicker x:Name="dpTxDate" FontSize="12" Width="130" Margin="8,0,0,0"/>
+                                <Button Content="✅ บันทึก" Click="AddTransaction_Click" Padding="14,6" Margin="8,0,0,0"
+                                        FontSize="12" Background="#27ae60" Foreground="White" BorderThickness="0" Cursor="Hand"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+
+                    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Margin="8,4,8,8">
+                        <StackPanel x:Name="panelTransactions"/>
+                    </ScrollViewer>
+                </Grid>
+            </TabItem>
+
+            <!-- Tab: บิลที่ต้องจ่าย -->
+            <TabItem FontSize="13" FontWeight="SemiBold">
+                <TabItem.Header>
+                    <TextBlock Text="บิล" VerticalAlignment="Center"/>
+                </TabItem.Header>
+                <Grid Background="#0f1018">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Border Grid.Row="0" Background="#161828" CornerRadius="10" Padding="14" Margin="8,8,8,4">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBox x:Name="txtBillTitle" Width="180" FontSize="13" Padding="6" Background="#2a2d45" Foreground="#e8e9f0" BorderBrush="#2a2d45"/>
+                            <TextBox x:Name="txtBillAmount" Width="100" FontSize="13" Padding="6" Margin="8,0" Background="#2a2d45" Foreground="#e8e9f0" BorderBrush="#2a2d45"/>
+                            <DatePicker x:Name="dpBillDue" FontSize="12" Width="130" Margin="0,0,8,0"/>
+                            <ComboBox x:Name="cmbBillCat" Width="100" FontSize="12" Padding="6"/>
+                            <CheckBox x:Name="chkRecurring" Content="ประจำเดือน" FontSize="12" Foreground="#e8e9f0" VerticalAlignment="Center" Margin="8,0"/>
+                            <Button Content="➕ เพิ่มบิล" Click="AddBill_Click" Padding="14,6"
+                                    FontSize="12" Background="#e74c3c" Foreground="White" BorderThickness="0" Cursor="Hand"/>
+                        </StackPanel>
+                    </Border>
+
+                    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Margin="8,4,8,8">
+                        <StackPanel x:Name="panelBills"/>
+                    </ScrollViewer>
+                </Grid>
+            </TabItem>
+
+            <!-- Tab: นำเข้าข้อมูลธนาคาร -->
+            <TabItem FontSize="13" FontWeight="SemiBold">
+                <TabItem.Header>
+                    <TextBlock Text="นำเข้า" VerticalAlignment="Center"/>
+                </TabItem.Header>
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Background="#0f1018">
+                    <StackPanel Margin="12" MaxWidth="600">
+                        <TextBlock Text="📥 นำเข้าข้อมูลจากธนาคาร" FontSize="16" FontWeight="Bold" Foreground="#e8e9f0" Margin="0,0,0,12"/>
+
+                        <!-- วิธีที่ 1: Import CSV -->
+                        <Border Background="#161828" CornerRadius="12" Padding="16" Margin="0,0,0,12"
+                                BorderBrush="#0984e3" BorderThickness="0,0,0,3">
+                            <StackPanel>
+                                <TextBlock Text="📄 วิธีที่ 1: Import จากไฟล์ Statement (CSV/Excel)" FontSize="14" FontWeight="Bold" Foreground="#0984e3"/>
+                                <TextBlock TextWrapping="Wrap" FontSize="12" Foreground="#8b8fa7" Margin="0,6,0,8"
+                                    Text="1. เปิดแอปธนาคาร → Statement/รายการเดินบัญชี&#x0a;2. ดาวน์โหลดเป็นไฟล์ CSV หรือ Excel&#x0a;3. กดปุ่มด้านล่างเพื่อนำเข้า → AI จัดหมวดให้อัตโนมัติ"/>
+                                <TextBlock Text="เลือกธนาคาร:" Foreground="#8b8fa7" FontSize="12" Margin="0,0,0,4"/>
+                                <ComboBox x:Name="cmbImportBank" FontSize="13" Padding="6" Width="200" HorizontalAlignment="Left">
+                                    <ComboBoxItem Content="💚 KBank กสิกร" Tag="KBank" IsSelected="True"/>
+                                    <ComboBoxItem Content="💜 SCB ไทยพาณิชย์" Tag="SCB"/>
+                                    <ComboBoxItem Content="💙 BBL กรุงเทพ" Tag="BBL"/>
+                                    <ComboBoxItem Content="🔵 KTB กรุงไทย" Tag="KTB"/>
+                                    <ComboBoxItem Content="🧡 ttb ทหารไทยธนชาต" Tag="ttb"/>
+                                    <ComboBoxItem Content="💛 BAY กรุงศรี" Tag="BAY"/>
+                                    <ComboBoxItem Content="💗 GSB ออมสิน" Tag="GSB"/>
+                                    <ComboBoxItem Content="🏦 อื่นๆ" Tag="Other"/>
+                                </ComboBox>
+                                <Button Content="📂 เลือกไฟล์ CSV แล้วนำเข้า" Click="ImportCSV_Click" Margin="0,10,0,0"
+                                        Padding="18,8" FontSize="13" FontWeight="SemiBold"
+                                        Background="#0984e3" Foreground="White" BorderThickness="0" Cursor="Hand"/>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- วิธีที่ 2: วาง SMS -->
+                        <Border Background="#161828" CornerRadius="12" Padding="16" Margin="0,0,0,12"
+                                BorderBrush="#27ae60" BorderThickness="0,0,0,3">
+                            <StackPanel>
+                                <TextBlock Text="💬 วิธีที่ 2: วาง SMS/แจ้งเตือนจากธนาคาร" FontSize="14" FontWeight="Bold" Foreground="#27ae60"/>
+                                <TextBlock TextWrapping="Wrap" FontSize="12" Foreground="#8b8fa7" Margin="0,6,0,8"
+                                    Text="คัดลอก SMS หรือแจ้งเตือนจากธนาคาร แล้ววางลงช่องด้านล่าง&#x0a;AI จะแยกยอดเงิน, ธนาคาร, หมวดหมู่ให้อัตโนมัติ&#x0a;&#x0a;ตัวอย่าง: 'KBank: จ่าย 350.00 บาท ที่ 7-Eleven คงเหลือ 12,500.00'"/>
+                                <TextBox x:Name="txtSMSInput" FontSize="12" Padding="8" Height="80"
+                                         AcceptsReturn="True" TextWrapping="Wrap"
+                                         Background="#2a2d45" Foreground="#e8e9f0" BorderBrush="#2a2d45"/>
+                                <Button Content="🤖 วิเคราะห์ SMS แล้วบันทึก" Click="ParseSMS_Click" Margin="0,10,0,0"
+                                        Padding="18,8" FontSize="13" FontWeight="SemiBold"
+                                        Background="#27ae60" Foreground="White" BorderThickness="0" Cursor="Hand"/>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- ผลลัพธ์ -->
+                        <StackPanel x:Name="panelImportResult"/>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+            <!-- Tab: รับ SMS อัตโนมัติ -->
+            <TabItem FontSize="13" FontWeight="SemiBold">
+                <TabItem.Header>
+                    <TextBlock Text="SMS" VerticalAlignment="Center"/>
+                </TabItem.Header>
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Background="#0f1018">
+                    <StackPanel Margin="12" MaxWidth="600">
+                        <TextBlock Text="📱 รับ SMS ธนาคารอัตโนมัติจากมือถือ" FontSize="16" FontWeight="Bold" Foreground="#e8e9f0" Margin="0,0,0,10"/>
+
+                        <!-- Server controls -->
+                        <Border Background="#161828" CornerRadius="12" Padding="16" Margin="0,0,0,12"
+                                BorderBrush="#6c63ff" BorderThickness="0,0,0,3">
+                            <StackPanel>
+                                <TextBlock Text="🖥️ Local Server — รับข้อมูลจากมือถือผ่าน WiFi" FontSize="14" FontWeight="Bold" Foreground="#6c63ff"/>
+                                <TextBlock x:Name="lblServerStatus" Text="⏹️ เซิร์ฟเวอร์ยังไม่ได้เริ่ม" FontSize="12" Foreground="#8b8fa7" Margin="0,6,0,0"/>
+                                <TextBlock x:Name="lblServerIP" Text="" FontSize="12" Foreground="#27ae60" Margin="0,4,0,0"/>
+                                <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                                    <Button Content="▶️ เริ่มรับ SMS" x:Name="btnStartServer" Click="StartServer_Click"
+                                            Padding="16,8" FontSize="13" Background="#27ae60" Foreground="White" BorderThickness="0" Cursor="Hand"/>
+                                    <Button Content="⏹️ หยุด" Click="StopServer_Click" Margin="8,0,0,0"
+                                            Padding="16,8" FontSize="13" Background="#e74c3c" Foreground="White" BorderThickness="0" Cursor="Hand"/>
+                                    <Button Content="📱 เปิดหน้า Setup" Click="OpenSetup_Click" Margin="8,0,0,0"
+                                            Padding="16,8" FontSize="13" Background="#2a2d45" Foreground="#e8e9f0" BorderThickness="0" Cursor="Hand"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- SMS log -->
+                        <Border Background="#161828" CornerRadius="12" Padding="16" Margin="0,0,0,12">
+                            <StackPanel>
+                                <TextBlock Text="📨 SMS ที่รับล่าสุด" FontSize="14" FontWeight="Bold" Foreground="#e8e9f0" Margin="0,0,0,8"/>
+                                <StackPanel x:Name="panelSMSLog"/>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Setup instructions -->
+                        <Border Background="#161828" CornerRadius="12" Padding="16">
+                            <StackPanel>
+                                <TextBlock Text="📋 วิธีตั้งค่าบนมือถือ Android" FontSize="14" FontWeight="Bold" Foreground="#f39c12" Margin="0,0,0,8"/>
+                                <TextBlock TextWrapping="Wrap" FontSize="12" Foreground="#8b8fa7" LineHeight="22" Text=
+"วิธีที่ 1: Tasker (แนะนำ — อัตโนมัติ 100%)&#x0a;1. ติดตั้ง Tasker จาก Play Store&#x0a;2. Profile → Event → Phone → Received Text&#x0a;3. Sender: *KBank* หรือ *SCB* ฯลฯ&#x0a;4. Task → Net → HTTP Request → POST&#x0a;5. URL: http://[IP เครื่อง PC]:8899/api/sms&#x0a;6. Body: {&quot;message&quot;: &quot;%SMSRB&quot;}&#x0a;&#x0a;วิธีที่ 2: เปิด Browser มือถือ&#x0a;1. เชื่อม WiFi เดียวกับ PC&#x0a;2. เปิด http://[IP]:8899&#x0a;3. วาง SMS แล้วกดส่ง&#x0a;&#x0a;วิธีที่ 3: SMS Forwarder → Email&#x0a;1. ติดตั้งแอป SMS Forwarder&#x0a;2. Forward SMS ธนาคารเข้า Email&#x0a;3. ดึงจาก Email เข้าแอป"/>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+            <!-- Tab: วิเคราะห์ความเสี่ยง-กำไร -->
+            <TabItem FontSize="13" FontWeight="SemiBold">
+                <TabItem.Header>
+                    <TextBlock Text="วิเคราะห์" VerticalAlignment="Center"/>
+                </TabItem.Header>
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Background="#0f1018">
+                    <StackPanel x:Name="panelAnalysis" Margin="12"/>
+                </ScrollViewer>
+            </TabItem>
+
+            <!-- Tab: ข้อมูลตลาด -->
+            <TabItem FontSize="13" FontWeight="SemiBold">
+                <TabItem.Header>
+                    <TextBlock Text="ตลาด" VerticalAlignment="Center"/>
+                </TabItem.Header>
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Background="#0f1018">
+                    <StackPanel x:Name="panelMarket" Margin="12"/>
+                </ScrollViewer>
+            </TabItem>
+
+            <!-- Tab: AI แนะนำการลงทุน -->
+            <TabItem FontSize="13" FontWeight="SemiBold">
+                <TabItem.Header>
+                    <TextBlock Text="AI ลงทุน" VerticalAlignment="Center"/>
+                </TabItem.Header>
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Background="#0f1018">
+                    <StackPanel x:Name="panelAIInvest" Margin="12"/>
+                </ScrollViewer>
+            </TabItem>
+
+            <!-- Tab: บัญชีธนาคาร -->
+            <TabItem FontSize="13" FontWeight="SemiBold">
+                <TabItem.Header>
+                    <TextBlock Text="ธนาคาร" VerticalAlignment="Center"/>
+                </TabItem.Header>
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Background="#0f1018">
+                    <StackPanel x:Name="panelBanks" Margin="12"/>
+                </ScrollViewer>
+            </TabItem>
+
+        </TabControl>
+    </Grid>
+</Window>

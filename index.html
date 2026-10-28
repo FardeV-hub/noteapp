@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NoteApp — Productivity Suite</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400&display=swap">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root {
+  --bg: #0e1017;
+  --surface: #161922;
+  --surface-2: #1e222e;
+  --text: #d4d7e0;
+  --text-2: #737a8c;
+  --accent: #7b93f7;
+  --accent-2: #5a73d4;
+  --font: 'IBM Plex Sans Thai', 'IBM Plex Sans', system-ui, sans-serif;
+  --mono: 'JetBrains Mono', monospace;
+  color-scheme: dark;
+}
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --bg: #f4f5f8; --surface: #ffffff; --surface-2: #edf0f5;
+    --text: #1a1d28; --text-2: #6b7080;
+    --accent: #5570e8; --accent-2: #4060d0;
+    color-scheme: light;
+  }
+}
+:root[data-theme="light"] {
+  --bg: #f4f5f8; --surface: #ffffff; --surface-2: #edf0f5;
+  --text: #1a1d28; --text-2: #6b7080;
+  --accent: #5570e8; --accent-2: #4060d0;
+  color-scheme: light;
+}
+body {
+  background: var(--bg); color: var(--text);
+  font-family: var(--font); padding: 0 16px;
+}
+.wrap { max-width: 860px; margin: 0 auto; }
+
+.hero { text-align: center; padding: 80px 0 60px; }
+.hero-logo {
+  width: 72px; height: 72px; border-radius: 18px;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 32px; font-weight: 700; color: #fff;
+  margin-bottom: 24px;
+  box-shadow: 0 8px 32px rgba(123,147,247,0.25);
+}
+.hero h1 { font-size: 42px; font-weight: 700; letter-spacing: -1px; margin-bottom: 12px; }
+.hero h1 span { color: var(--accent); }
+.hero p { font-size: 17px; color: var(--text-2); max-width: 480px; margin: 0 auto 32px; line-height: 1.7; }
+.hero-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+.btn-primary {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 14px 28px; background: var(--accent);
+  color: #fff; font-size: 15px; font-weight: 600;
+  border-radius: 10px; text-decoration: none; transition: opacity 0.15s;
+}
+.btn-primary:hover { opacity: 0.88; }
+.btn-secondary {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 14px 28px; background: var(--surface-2);
+  color: var(--text); font-size: 15px; font-weight: 500;
+  border-radius: 10px; text-decoration: none; transition: background 0.15s;
+}
+.btn-secondary:hover { background: var(--surface); }
+.hero-meta { margin-top: 20px; font-size: 13px; color: var(--text-2); }
+.hero-meta span { margin: 0 6px; }
+
+.section-title { text-align: center; font-size: 28px; font-weight: 700; letter-spacing: -0.5px; margin: 60px 0 8px; }
+.section-sub { text-align: center; font-size: 15px; color: var(--text-2); margin-bottom: 36px; }
+
+.features {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 14px; margin-bottom: 60px;
+}
+.feature-card {
+  background: var(--surface); border-radius: 12px; padding: 24px;
+  border: 1px solid var(--surface-2); transition: border-color 0.2s;
+}
+.feature-card:hover { border-color: var(--accent); }
+.feature-icon {
+  width: 40px; height: 40px; border-radius: 10px;
+  background: var(--surface-2); display: flex; align-items: center; justify-content: center;
+  font-size: 20px; margin-bottom: 14px;
+}
+.feature-card h3 { font-size: 15px; font-weight: 600; margin-bottom: 6px; }
+.feature-card p { font-size: 13px; color: var(--text-2); line-height: 1.6; }
+
+.steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 60px; }
+@media (max-width: 600px) { .steps { grid-template-columns: 1fr; } }
+.step { background: var(--surface); border-radius: 12px; padding: 24px; border: 1px solid var(--surface-2); text-align: center; }
+.step-num {
+  width: 32px; height: 32px; border-radius: 50%; background: var(--accent);
+  color: #fff; font-size: 14px; font-weight: 700;
+  display: inline-flex; align-items: center; justify-content: center; margin-bottom: 12px;
+}
+.step h3 { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+.step p { font-size: 13px; color: var(--text-2); }
+
+.tech-bar { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-bottom: 60px; }
+.tech-tag {
+  padding: 6px 14px; background: var(--surface); border: 1px solid var(--surface-2);
+  border-radius: 8px; font-size: 13px; font-weight: 500; color: var(--text-2); font-family: var(--mono);
+}
+
+.footer { text-align: center; padding: 40px 0; border-top: 1px solid var(--surface-2); font-size: 13px; color: var(--text-2); }
+.footer a { color: var(--accent); text-decoration: none; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <section class="hero">
+    <div class="hero-logo">N</div>
+    <h1>Note<span>App</span></h1>
+    <p>แอปจดบันทึกครบวงจร สำหรับวัยทำงานและเรียน<br>ฟรี ไม่ต้องติดตั้ง ข้อมูลอยู่ในมือคุณ</p>
+    <div class="hero-actions">
+      <a href="https://github.com/FardeV-hub/noteapp/releases" class="btn-primary" target="_blank">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        ดาวน์โหลด v2.0
+      </a>
+      <a href="https://github.com/FardeV-hub/noteapp" class="btn-secondary" target="_blank">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+        Source Code
+      </a>
+    </div>
+    <div class="hero-meta">
+      Windows 10/11 64-bit <span>·</span> ฟรี <span>·</span> ไม่ต้องติดตั้ง <span>·</span> 67 MB
+    </div>
+  </section>
+
+  <h2 class="section-title">ทุกอย่างในแอปเดียว</h2>
+  <p class="section-sub">เครื่องมือ productivity ที่ออกแบบให้ใช้งานง่ายและสะอาดตา</p>
+
+  <div class="features">
+    <div class="feature-card">
+      <div class="feature-icon">📝</div>
+      <h3>โน้ต</h3>
+      <p>จดบันทึก จัดหมวดหมู่ ปักหมุด ล็อครหัส ค้นหา แจ้งเตือน Export ได้หลายรูปแบบ</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">💰</div>
+      <h3>การเงิน</h3>
+      <p>รายรับ-จ่าย บิล นำเข้า SMS ธนาคาร ข้อมูลตลาด AI วิเคราะห์การลงทุน</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">👥</div>
+      <h3>ประชุม</h3>
+      <p>จองห้อง ดูตาราง ส่งแจ้งเตือน Discord / Google Classroom</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📚</div>
+      <h3>Study Hub</h3>
+      <p>AI สรุปบทเรียน แฟลชการ์ด ออกข้อสอบ GPA Calculator Focus Timer</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">💬</div>
+      <h3>Community</h3>
+      <p>กระดานโพสต์ ถามตอบ แชร์ผ่าน WiFi ให้คนรอบข้างเข้าร่วมได้</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">☁️</div>
+      <h3>Cloud Sync</h3>
+      <p>ซิงค์ข้อมูลผ่าน GitHub Gist หรือ Firebase ใช้ได้หลายเครื่อง</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🎨</div>
+      <h3>20 ธีม</h3>
+      <p>Dark / Light สลับได้ตามใจ Midnight, Dracula, Nord, Sakura และอื่นอีก</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🤖</div>
+      <h3>AI</h3>
+      <p>จัดหมวดอัตโนมัติ สรุปโน้ต วิเคราะห์ความเร่งด่วน แนะนำสิ่งที่ควรทำ</p>
+    </div>
+  </div>
+
+  <h2 class="section-title">เริ่มใช้ใน 3 ขั้นตอน</h2>
+  <p class="section-sub">ไม่ต้องติดตั้ง ไม่ต้อง login ใช้ได้ทันที</p>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <h3>ดาวน์โหลด</h3>
+      <p>กด Download zip จากหน้า GitHub Releases</p>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <h3>แตกไฟล์</h3>
+      <p>คลิกขวา Extract All ไปโฟลเดอร์ที่ต้องการ</p>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <h3>เปิดใช้</h3>
+      <p>ดับเบิลคลิก NoteApp.exe ใช้งานได้เลย</p>
+    </div>
+  </div>
+
+  <h2 class="section-title">สร้างด้วย</h2>
+  <div class="tech-bar">
+    <span class="tech-tag">C#</span>
+    <span class="tech-tag">WPF</span>
+    <span class="tech-tag">.NET 8</span>
+    <span class="tech-tag">Firebase</span>
+    <span class="tech-tag">GitHub API</span>
+    <span class="tech-tag">REST API</span>
+  </div>
+
+  <footer class="footer">
+    NoteApp v2.0 &middot; Made by <a href="https://github.com/FardeV-hub" target="_blank">FardeV-hub</a> &middot; Open Source on <a href="https://github.com/FardeV-hub/noteapp" target="_blank">GitHub</a>
+  </footer>
+
+</div>
+</body>
+</html>
