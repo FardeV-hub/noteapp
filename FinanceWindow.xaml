@@ -2,10 +2,10 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="ระบบการเงิน" Height="720" Width="900"
-        WindowStartupLocation="CenterOwner" Background="#0f1018"
+        WindowStartupLocation="CenterOwner" Background="#13151c"
         ResizeMode="CanResize" MinWidth="700" MinHeight="500">
 
-    <Grid Margin="12">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
@@ -34,14 +34,14 @@
             </Grid>
         </Border>
 
-        <TabControl Grid.Row="1" Background="#0f1018" BorderBrush="#2a2d45" Foreground="#e8e9f0">
+        <TabControl Grid.Row="1" Background="#13151c" BorderBrush="#2a2d45" Foreground="#e8e9f0">
 
             <!-- Tab: สรุปภาพรวม -->
             <TabItem FontSize="13" FontWeight="SemiBold">
                 <TabItem.Header>
                     <TextBlock Text="ภาพรวม" VerticalAlignment="Center"/>
                 </TabItem.Header>
-                <ScrollViewer VerticalScrollBarVisibility="Auto" Background="#0f1018">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Background="#13151c">
                     <StackPanel x:Name="panelOverview" Margin="12"/>
                 </ScrollViewer>
             </TabItem>
@@ -51,7 +51,7 @@
                 <TabItem.Header>
                     <TextBlock Text="รายรับ-จ่าย" VerticalAlignment="Center"/>
                 </TabItem.Header>
-                <Grid Background="#0f1018">
+                <Grid Background="#13151c">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
@@ -86,7 +86,7 @@
                 <TabItem.Header>
                     <TextBlock Text="บิล" VerticalAlignment="Center"/>
                 </TabItem.Header>
-                <Grid Background="#0f1018">
+                <Grid Background="#13151c">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
@@ -115,7 +115,7 @@
                 <TabItem.Header>
                     <TextBlock Text="นำเข้า" VerticalAlignment="Center"/>
                 </TabItem.Header>
-                <ScrollViewer VerticalScrollBarVisibility="Auto" Background="#0f1018">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Background="#13151c">
                     <StackPanel Margin="12" MaxWidth="600">
                         <TextBlock Text="📥 นำเข้าข้อมูลจากธนาคาร" FontSize="16" FontWeight="Bold" Foreground="#e8e9f0" Margin="0,0,0,12"/>
 
@@ -170,7 +170,7 @@
                 <TabItem.Header>
                     <TextBlock Text="SMS" VerticalAlignment="Center"/>
                 </TabItem.Header>
-                <ScrollViewer VerticalScrollBarVisibility="Auto" Background="#0f1018">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Background="#13151c">
                     <StackPanel Margin="12" MaxWidth="600">
                         <TextBlock Text="📱 รับ SMS ธนาคารอัตโนมัติจากมือถือ" FontSize="16" FontWeight="Bold" Foreground="#e8e9f0" Margin="0,0,0,10"/>
 
@@ -217,7 +217,7 @@
                 <TabItem.Header>
                     <TextBlock Text="วิเคราะห์" VerticalAlignment="Center"/>
                 </TabItem.Header>
-                <ScrollViewer VerticalScrollBarVisibility="Auto" Background="#0f1018">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Background="#13151c">
                     <StackPanel x:Name="panelAnalysis" Margin="12"/>
                 </ScrollViewer>
             </TabItem>
@@ -227,7 +227,7 @@
                 <TabItem.Header>
                     <TextBlock Text="ตลาด" VerticalAlignment="Center"/>
                 </TabItem.Header>
-                <ScrollViewer VerticalScrollBarVisibility="Auto" Background="#0f1018">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Background="#13151c">
                     <StackPanel x:Name="panelMarket" Margin="12"/>
                 </ScrollViewer>
             </TabItem>
@@ -237,7 +237,7 @@
                 <TabItem.Header>
                     <TextBlock Text="AI ลงทุน" VerticalAlignment="Center"/>
                 </TabItem.Header>
-                <ScrollViewer VerticalScrollBarVisibility="Auto" Background="#0f1018">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Background="#13151c">
                     <StackPanel x:Name="panelAIInvest" Margin="12"/>
                 </ScrollViewer>
             </TabItem>
@@ -247,7 +247,7 @@
                 <TabItem.Header>
                     <TextBlock Text="ธนาคาร" VerticalAlignment="Center"/>
                 </TabItem.Header>
-                <ScrollViewer VerticalScrollBarVisibility="Auto" Background="#0f1018">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Background="#13151c">
                     <StackPanel x:Name="panelBanks" Margin="12"/>
                 </ScrollViewer>
             </TabItem>

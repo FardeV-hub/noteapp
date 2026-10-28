@@ -145,7 +145,7 @@
                         <StackPanel Orientation="Horizontal"><TextBlock Text="&#xE790;" FontFamily="Segoe MDL2 Assets" FontSize="14" Margin="0,0,10,0" VerticalAlignment="Center"/><TextBlock Text="ธีม" VerticalAlignment="Center"/></StackPanel>
                     </Button>
                     <Button x:Name="btnAccounts" Click="Accounts_Click" Style="{StaticResource NavBtn}">
-                        <StackPanel Orientation="Horizontal"><TextBlock Text="&#xE77B;" FontFamily="Segoe MDL2 Assets" FontSize="14" Margin="0,0,10,0" VerticalAlignment="Center"/><TextBlock Text="บัญชี" VerticalAlignment="Center"/></StackPanel>
+                        <StackPanel Orientation="Horizontal"><TextBlock Text="&#xE77B;" FontFamily="Segoe MDL2 Assets" FontSize="14" Margin="0,0,10,0" VerticalAlignment="Center"/><TextBlock Text="โปรไฟล์" VerticalAlignment="Center"/></StackPanel>
                     </Button>
                 </StackPanel>
 

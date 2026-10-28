@@ -5,10 +5,15 @@
              Startup="App_Startup">
     <Application.Resources>
 
+        <!-- ===== Global Window Style (dark title bar) ===== -->
+        <Style TargetType="Window">
+            <Setter Property="Background" Value="#13151c"/>
+        </Style>
+
         <!-- ===== Global TabControl Style ===== -->
         <Style TargetType="TabControl">
-            <Setter Property="Background" Value="#0f1018"/>
-            <Setter Property="BorderBrush" Value="#2a2d45"/>
+            <Setter Property="Background" Value="#13151c"/>
+            <Setter Property="BorderBrush" Value="#272b38"/>
             <Setter Property="BorderThickness" Value="0"/>
             <Setter Property="Padding" Value="0"/>
         </Style>

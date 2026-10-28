@@ -2,9 +2,9 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="บ้านอัจฉริยะ" Height="680" Width="850"
-        WindowStartupLocation="CenterOwner" Background="#0f1018"
+        WindowStartupLocation="CenterOwner" Background="#13151c"
         ResizeMode="CanResize" MinWidth="650" MinHeight="450">
-    <Grid Margin="12">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
@@ -29,12 +29,12 @@
             </Grid>
         </Border>
 
-        <TabControl Grid.Row="1" Background="#0f1018" BorderBrush="#2a2d45" Foreground="#e8e9f0">
+        <TabControl Grid.Row="1" Background="#13151c" BorderBrush="#2a2d45" Foreground="#e8e9f0">
             <TabItem FontSize="13" FontWeight="SemiBold">
                 <TabItem.Header>
                     <TextBlock Text="ควบคุม" VerticalAlignment="Center"/>
                 </TabItem.Header>
-                <ScrollViewer VerticalScrollBarVisibility="Auto" Background="#0f1018">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Background="#13151c">
                     <StackPanel x:Name="panelDevices" Margin="8"/>
                 </ScrollViewer>
             </TabItem>
@@ -43,7 +43,7 @@
                 <TabItem.Header>
                     <TextBlock Text="ตั้งค่าแพลตฟอร์ม" VerticalAlignment="Center"/>
                 </TabItem.Header>
-                <ScrollViewer VerticalScrollBarVisibility="Auto" Background="#0f1018">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Background="#13151c">
                     <StackPanel Margin="12" MaxWidth="550">
                         <TextBlock Text="⚙️ ตั้งค่าเชื่อมต่อ" FontSize="16" FontWeight="Bold" Foreground="#e8e9f0" Margin="0,0,0,12"/>
 

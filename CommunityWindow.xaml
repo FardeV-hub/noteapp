@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Community" Height="720" Width="700"
         WindowStartupLocation="CenterOwner" Background="#13151c"
+
         ResizeMode="CanResize" MinWidth="500" MinHeight="450">
 
     <Grid>

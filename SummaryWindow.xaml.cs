@@ -321,7 +321,7 @@ public partial class SummaryWindow : Window
             var items = catGroup.OrderBy(n => n.PriorityRank).ToList();
 
             var tab = new TabItem { Header = $"{catName} ({items.Count})", FontSize = 13, FontWeight = FontWeights.SemiBold };
-            var sv = new ScrollViewer { VerticalScrollBarVisibility = ScrollBarVisibility.Auto, Background = Brush("#0f1018") };
+            var sv = new ScrollViewer { VerticalScrollBarVisibility = ScrollBarVisibility.Auto, Background = Brush("#13151c") };
             var panel = new StackPanel { Margin = new Thickness(12) };
 
             // Category stats card

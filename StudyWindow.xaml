@@ -12,7 +12,7 @@
         </Grid.RowDefinitions>
 
         <!-- Header -->
-        <Border Grid.Row="0" Padding="20,16" Margin="12,12,12,0" CornerRadius="8">
+        <Border Grid.Row="0" Padding="20,16">
             <Border.Background>
                 <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
                     <GradientStop Color="#1a1d28" Offset="0"/>
@@ -31,7 +31,7 @@
         </Border>
 
         <!-- Tabs -->
-        <TabControl Grid.Row="1" Margin="12,8,12,12" Background="#13151c"
+        <TabControl Grid.Row="1" Background="#13151c"
                     BorderBrush="#272b38" Foreground="#d8dae2">
             <TabItem FontSize="13" FontWeight="Medium">
                 <TabItem.Header>

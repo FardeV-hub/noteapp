@@ -40,7 +40,10 @@ public partial class MainWindow : Window
         txtHour.Text = DateTime.Now.Hour.ToString("D2");
         txtMinute.Text = DateTime.Now.Minute.ToString("D2");
 
-        lblUser.Text = $"👤 {App.CurrentUser}";
+        var profile = UserProfileStore.Load();
+        if (!string.IsNullOrEmpty(profile.DisplayName))
+            App.CurrentUser = profile.DisplayName;
+        lblUser.Text = App.CurrentUser;
 
         _currentThemeName = ThemeManager.LoadSavedTheme();
         _theme = ThemeManager.GetTheme(_currentThemeName);
@@ -1127,6 +1130,7 @@ public partial class MainWindow : Window
     {
         var win = new AccountsWindow() { Owner = this };
         win.ShowDialog();
+        lblUser.Text = App.CurrentUser;
     }
 
     private void Community_Click(object sender, RoutedEventArgs e)
