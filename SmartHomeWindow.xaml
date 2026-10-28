@@ -1,0 +1,98 @@
+<Window x:Class="NoteApp.SmartHomeWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="บ้านอัจฉริยะ" Height="680" Width="850"
+        WindowStartupLocation="CenterOwner" Background="#0f1018"
+        ResizeMode="CanResize" MinWidth="650" MinHeight="450">
+    <Grid Margin="12">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0" CornerRadius="6" Margin="0,0,0,8">
+            <Border.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                    <GradientStop Color="#161828" Offset="0"/>
+                    <GradientStop Color="#1c1e35" Offset="1"/>
+                </LinearGradientBrush>
+            </Border.Background>
+            <Grid Margin="16,12">
+                <StackPanel Orientation="Horizontal">
+                    <StackPanel>
+                        <TextBlock Text="Smart Home" FontSize="18" FontWeight="Bold" Foreground="#e8e9f0"/>
+                        <TextBlock x:Name="lblStatus" FontSize="11" Foreground="#5a5d78" Margin="0,3,0,0"/>
+                    </StackPanel>
+                </StackPanel>
+                <Button Content="+ เพิ่มอุปกรณ์" Click="AddDevice_Click" HorizontalAlignment="Right" VerticalAlignment="Center"
+                        Padding="14,7" FontSize="12" Background="#6c63ff" Foreground="White" BorderThickness="0" Cursor="Hand"/>
+            </Grid>
+        </Border>
+
+        <TabControl Grid.Row="1" Background="#0f1018" BorderBrush="#2a2d45" Foreground="#e8e9f0">
+            <TabItem FontSize="13" FontWeight="SemiBold">
+                <TabItem.Header>
+                    <TextBlock Text="ควบคุม" VerticalAlignment="Center"/>
+                </TabItem.Header>
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Background="#0f1018">
+                    <StackPanel x:Name="panelDevices" Margin="8"/>
+                </ScrollViewer>
+            </TabItem>
+
+            <TabItem FontSize="13" FontWeight="SemiBold">
+                <TabItem.Header>
+                    <TextBlock Text="ตั้งค่าแพลตฟอร์ม" VerticalAlignment="Center"/>
+                </TabItem.Header>
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Background="#0f1018">
+                    <StackPanel Margin="12" MaxWidth="550">
+                        <TextBlock Text="⚙️ ตั้งค่าเชื่อมต่อ" FontSize="16" FontWeight="Bold" Foreground="#e8e9f0" Margin="0,0,0,12"/>
+
+                        <!-- Home Assistant -->
+                        <Border Background="#161828" CornerRadius="10" Padding="14" Margin="0,0,0,10" BorderBrush="#0984e3" BorderThickness="0,0,0,3">
+                            <StackPanel>
+                                <TextBlock Text="🏠 Home Assistant" FontSize="14" FontWeight="Bold" Foreground="#0984e3"/>
+                                <TextBlock Text="URL (เช่น http://192.168.1.100:8123)" Foreground="#8b8fa7" FontSize="11" Margin="0,8,0,2"/>
+                                <TextBox x:Name="txtHAUrl" FontSize="12" Padding="6" Background="#2a2d45" Foreground="#e8e9f0" BorderBrush="#2a2d45"/>
+                                <TextBlock Text="Long-Lived Access Token" Foreground="#8b8fa7" FontSize="11" Margin="0,6,0,2"/>
+                                <TextBox x:Name="txtHAToken" FontSize="12" Padding="6" Background="#2a2d45" Foreground="#e8e9f0" BorderBrush="#2a2d45"/>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Tuya -->
+                        <Border Background="#161828" CornerRadius="10" Padding="14" Margin="0,0,0,10" BorderBrush="#ff6b00" BorderThickness="0,0,0,3">
+                            <StackPanel>
+                                <TextBlock Text="📱 Tuya Smart" FontSize="14" FontWeight="Bold" Foreground="#ff6b00"/>
+                                <TextBlock Text="Client ID (จาก Tuya IoT Platform)" Foreground="#8b8fa7" FontSize="11" Margin="0,8,0,2"/>
+                                <TextBox x:Name="txtTuyaId" FontSize="12" Padding="6" Background="#2a2d45" Foreground="#e8e9f0" BorderBrush="#2a2d45"/>
+                                <TextBlock Text="Client Secret" Foreground="#8b8fa7" FontSize="11" Margin="0,6,0,2"/>
+                                <TextBox x:Name="txtTuyaSecret" FontSize="12" Padding="6" Background="#2a2d45" Foreground="#e8e9f0" BorderBrush="#2a2d45"/>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- MQTT -->
+                        <Border Background="#161828" CornerRadius="10" Padding="14" Margin="0,0,0,10" BorderBrush="#27ae60" BorderThickness="0,0,0,3">
+                            <StackPanel>
+                                <TextBlock Text="📡 MQTT Broker" FontSize="14" FontWeight="Bold" Foreground="#27ae60"/>
+                                <TextBlock Text="Broker URL (เช่น mqtt://192.168.1.100:1883)" Foreground="#8b8fa7" FontSize="11" Margin="0,8,0,2"/>
+                                <TextBox x:Name="txtMqttBroker" FontSize="12" Padding="6" Background="#2a2d45" Foreground="#e8e9f0" BorderBrush="#2a2d45"/>
+                                <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
+                                    <StackPanel>
+                                        <TextBlock Text="Username" Foreground="#8b8fa7" FontSize="11"/>
+                                        <TextBox x:Name="txtMqttUser" Width="200" FontSize="12" Padding="6" Background="#2a2d45" Foreground="#e8e9f0" BorderBrush="#2a2d45"/>
+                                    </StackPanel>
+                                    <StackPanel Margin="10,0,0,0">
+                                        <TextBlock Text="Password" Foreground="#8b8fa7" FontSize="11"/>
+                                        <TextBox x:Name="txtMqttPass" Width="200" FontSize="12" Padding="6" Background="#2a2d45" Foreground="#e8e9f0" BorderBrush="#2a2d45"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+
+                        <Button Content="💾 บันทึกทั้งหมด" Click="SaveSettings_Click"
+                                Padding="18,8" FontSize="13" Background="#6c63ff" Foreground="White" BorderThickness="0" Cursor="Hand"/>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>

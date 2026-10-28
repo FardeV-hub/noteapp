@@ -1,0 +1,172 @@
+<Window x:Class="NoteApp.CloudSyncWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Cloud Sync" Height="700" Width="580"
+        WindowStartupLocation="CenterOwner" Background="#13151c"
+        ResizeMode="CanResize" MinWidth="460" MinHeight="500">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0" Padding="20,16">
+            <Border.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                    <GradientStop Color="#1a1d28" Offset="0"/>
+                    <GradientStop Color="#1e2235" Offset="1"/>
+                </LinearGradientBrush>
+            </Border.Background>
+            <StackPanel>
+                <TextBlock Text="Cloud Sync" FontSize="18" FontWeight="Bold" Foreground="#d8dae2"/>
+                <TextBlock x:Name="lblStatus" Text="ยังไม่ได้เชื่อมต่อ" FontSize="11" Foreground="#7d8298" Margin="0,3,0,0"/>
+            </StackPanel>
+        </Border>
+
+        <TabControl Grid.Row="1" Background="#13151c" BorderBrush="#272b38" Foreground="#d8dae2">
+            <!-- Tab: GitHub Gist -->
+            <TabItem FontSize="13" FontWeight="Medium">
+                <TabItem.Header>
+                    <TextBlock Text="GitHub Gist" VerticalAlignment="Center"/>
+                </TabItem.Header>
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Background="#13151c">
+                    <StackPanel Margin="18" MaxWidth="500">
+
+                        <!-- Config -->
+                        <Border Background="#1c1f2a" CornerRadius="10" Padding="18" Margin="0,0,0,14">
+                            <StackPanel>
+                                <TextBlock Text="เชื่อมต่อ GitHub Gist" FontSize="14" FontWeight="SemiBold"
+                                           Foreground="#7b93f7" Margin="0,0,0,12"/>
+
+                                <TextBlock Text="Personal Access Token" Foreground="#7d8298" FontSize="11"
+                                           Margin="0,0,0,5" FontWeight="Medium"/>
+                                <TextBox x:Name="txtGistToken" FontSize="13" Padding="10"
+                                         Background="#272b38" Foreground="#d8dae2"
+                                         BorderBrush="#303345" BorderThickness="1"/>
+                                <TextBlock Text="สร้างได้ที่ github.com/settings/tokens → Generate new token (classic) → เลือก scope 'gist'"
+                                           FontSize="10" Foreground="#5a5d70" Margin="0,3,0,0" TextWrapping="Wrap"/>
+
+                                <TextBlock Text="Gist ID (ถ้ามีอยู่แล้ว — ถ้าไม่มีกดสร้างใหม่)" Foreground="#7d8298"
+                                           FontSize="11" Margin="0,14,0,5" FontWeight="Medium"/>
+                                <TextBox x:Name="txtGistId" FontSize="13" Padding="10"
+                                         Background="#272b38" Foreground="#d8dae2"
+                                         BorderBrush="#303345" BorderThickness="1"/>
+
+                                <StackPanel Orientation="Horizontal" Margin="0,14,0,0">
+                                    <Button Content="บันทึก" Click="SaveGistConfig_Click"
+                                            Padding="16,8" FontSize="12" FontWeight="SemiBold"
+                                            Background="#7b93f7" Foreground="White"/>
+                                    <Button Content="สร้าง Gist ใหม่" Click="CreateGist_Click" Margin="8,0,0,0"
+                                            Padding="16,8" FontSize="12"
+                                            Background="#30a46c" Foreground="White"/>
+                                    <Button Content="ทดสอบ" Click="TestGist_Click" Margin="8,0,0,0"
+                                            Padding="16,8" FontSize="12"
+                                            Background="#353a50" Foreground="#d8dae2"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Sync -->
+                        <Border Background="#1c1f2a" CornerRadius="10" Padding="18" Margin="0,0,0,14">
+                            <StackPanel>
+                                <TextBlock Text="Sync ข้อมูล" FontSize="14" FontWeight="SemiBold"
+                                           Foreground="#7b93f7" Margin="0,0,0,8"/>
+                                <TextBlock x:Name="lblSyncInfo" FontSize="12" Foreground="#7d8298"
+                                           Margin="0,0,0,14" TextWrapping="Wrap"/>
+
+                                <TextBlock Text="โน้ต" FontSize="13" FontWeight="Medium" Foreground="#d8dae2" Margin="0,0,0,8"/>
+                                <StackPanel Orientation="Horizontal" Margin="0,0,0,14">
+                                    <Button Content="Push ขึ้น Gist" Click="GistPushNotes_Click"
+                                            Padding="14,8" FontSize="12" FontWeight="SemiBold"
+                                            Background="#30a46c" Foreground="White"/>
+                                    <Button Content="Pull จาก Gist" Click="GistPullNotes_Click" Margin="8,0,0,0"
+                                            Padding="14,8" FontSize="12"
+                                            Background="#353a50" Foreground="#d8dae2"/>
+                                </StackPanel>
+
+                                <TextBlock Text="Community" FontSize="13" FontWeight="Medium" Foreground="#d8dae2" Margin="0,0,0,8"/>
+                                <StackPanel Orientation="Horizontal">
+                                    <Button Content="Push ขึ้น Gist" Click="GistPushCommunity_Click"
+                                            Padding="14,8" FontSize="12" FontWeight="SemiBold"
+                                            Background="#30a46c" Foreground="White"/>
+                                    <Button Content="Pull จาก Gist" Click="GistPullCommunity_Click" Margin="8,0,0,0"
+                                            Padding="14,8" FontSize="12"
+                                            Background="#353a50" Foreground="#d8dae2"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Guide -->
+                        <Border Background="#1c1f2a" CornerRadius="10" Padding="18">
+                            <StackPanel>
+                                <TextBlock Text="วิธีสร้าง Token (ฟรี)" FontSize="14" FontWeight="SemiBold"
+                                           Foreground="#f5a623" Margin="0,0,0,10"/>
+                                <TextBlock FontSize="12" Foreground="#9a9db0" TextWrapping="Wrap" LineHeight="22"
+                                           Text="1. ไปที่ github.com/settings/tokens&#x0a;2. กด 'Generate new token (classic)'&#x0a;3. ตั้งชื่อ เช่น 'NoteApp Sync'&#x0a;4. เลือก scope: gist เท่านั้น&#x0a;5. กด Generate token → คัดลอก token&#x0a;6. วาง token ลงในช่องด้านบน&#x0a;7. กด 'สร้าง Gist ใหม่' → ระบบจะสร้างให้อัตโนมัติ&#x0a;8. กด Push/Pull เพื่อ sync ได้เลย&#x0a;&#x0a;ข้อมูลเก็บเป็น private Gist เห็นแค่คุณ&#x0a;ใช้ได้ทุกเครื่องที่มี token + Gist ID เดียวกัน"/>
+                            </StackPanel>
+                        </Border>
+
+                        <TextBlock x:Name="lblLog" FontSize="11" Foreground="#5a5d70" Margin="0,14,0,0"
+                                   TextWrapping="Wrap"/>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+            <!-- Tab: Firebase -->
+            <TabItem FontSize="13" FontWeight="Medium">
+                <TabItem.Header>
+                    <TextBlock Text="Firebase" VerticalAlignment="Center"/>
+                </TabItem.Header>
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Background="#13151c">
+                    <StackPanel Margin="18" MaxWidth="500">
+                        <Border Background="#1c1f2a" CornerRadius="10" Padding="18" Margin="0,0,0,14">
+                            <StackPanel>
+                                <TextBlock Text="Firebase Realtime Database" FontSize="14" FontWeight="SemiBold"
+                                           Foreground="#7b93f7" Margin="0,0,0,12"/>
+
+                                <TextBlock Text="Database URL" Foreground="#7d8298" FontSize="11" Margin="0,0,0,5"/>
+                                <TextBox x:Name="txtFirebaseUrl" FontSize="13" Padding="10"
+                                         Background="#272b38" Foreground="#d8dae2"
+                                         BorderBrush="#303345" BorderThickness="1"/>
+
+                                <TextBlock Text="API Key (ถ้ามี)" Foreground="#7d8298" FontSize="11" Margin="0,12,0,5"/>
+                                <TextBox x:Name="txtApiKey" FontSize="13" Padding="10"
+                                         Background="#272b38" Foreground="#d8dae2"
+                                         BorderBrush="#303345" BorderThickness="1"/>
+
+                                <StackPanel Orientation="Horizontal" Margin="0,14,0,0">
+                                    <Button Content="บันทึก" Click="SaveConfig_Click"
+                                            Padding="16,8" FontSize="12" FontWeight="SemiBold"
+                                            Background="#7b93f7" Foreground="White"/>
+                                    <Button Content="ทดสอบ" Click="TestConnection_Click" Margin="8,0,0,0"
+                                            Padding="16,8" FontSize="12"
+                                            Background="#353a50" Foreground="#d8dae2"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+
+                        <Border Background="#1c1f2a" CornerRadius="10" Padding="18">
+                            <StackPanel>
+                                <TextBlock Text="Sync" FontSize="14" FontWeight="SemiBold"
+                                           Foreground="#7b93f7" Margin="0,0,0,12"/>
+                                <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                                    <Button Content="Push โน้ต" Click="PushNotes_Click"
+                                            Padding="14,8" FontSize="12" Background="#30a46c" Foreground="White"/>
+                                    <Button Content="Pull โน้ต" Click="PullNotes_Click" Margin="8,0,0,0"
+                                            Padding="14,8" FontSize="12" Background="#353a50" Foreground="#d8dae2"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <Button Content="Push Community" Click="PushCommunity_Click"
+                                            Padding="14,8" FontSize="12" Background="#30a46c" Foreground="White"/>
+                                    <Button Content="Pull Community" Click="PullCommunity_Click" Margin="8,0,0,0"
+                                            Padding="14,8" FontSize="12" Background="#353a50" Foreground="#d8dae2"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>

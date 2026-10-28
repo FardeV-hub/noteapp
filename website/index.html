@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Note App — ดาวน์โหลดฟรี</title>
+<style>
+:root { --accent: #6c63ff; --bg: #0f0f1a; --surface: #1a1a2e; --text: #e0e0e0; --text2: #8888aa; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Segoe UI', -apple-system, sans-serif; background: var(--bg); color: var(--text); }
+
+/* Hero */
+.hero { text-align: center; padding: 60px 20px 40px; background: linear-gradient(135deg, #0f0f1a 0%, #1a1a3e 100%); }
+.hero .logo { font-size: 72px; margin-bottom: 10px; }
+.hero h1 { font-size: 42px; font-weight: 800; margin-bottom: 8px; }
+.hero h1 span { color: var(--accent); }
+.hero .subtitle { font-size: 18px; color: var(--text2); margin-bottom: 30px; }
+.hero .badges { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-bottom: 30px; }
+.badge { background: var(--surface); padding: 6px 14px; border-radius: 20px; font-size: 13px; color: var(--text2); }
+
+/* Download buttons */
+.download-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+.dl-btn { display: inline-flex; align-items: center; gap: 10px; padding: 14px 28px; border-radius: 12px; font-size: 16px; font-weight: 700; text-decoration: none; transition: transform .2s, box-shadow .2s; }
+.dl-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(108,99,255,.3); }
+.dl-btn.windows { background: var(--accent); color: white; }
+.dl-btn.web { background: #27ae60; color: white; }
+.dl-btn.github { background: #333; color: white; }
+.dl-btn .icon { font-size: 24px; }
+
+/* Features */
+.features { padding: 60px 20px; max-width: 1000px; margin: 0 auto; }
+.features h2 { text-align: center; font-size: 28px; margin-bottom: 40px; }
+.feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
+.feature-card { background: var(--surface); border-radius: 14px; padding: 24px; transition: transform .2s; }
+.feature-card:hover { transform: translateY(-4px); }
+.feature-card .icon { font-size: 36px; margin-bottom: 10px; }
+.feature-card h3 { font-size: 16px; margin-bottom: 6px; }
+.feature-card p { font-size: 13px; color: var(--text2); line-height: 1.6; }
+
+/* Screenshots */
+.screenshots { padding: 40px 20px; text-align: center; }
+.screenshots h2 { font-size: 28px; margin-bottom: 30px; }
+.screen-grid { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+.screen-card { background: var(--surface); border-radius: 12px; padding: 16px; width: 200px; }
+.screen-card .title { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+.screen-card .desc { font-size: 11px; color: var(--text2); }
+
+/* Stats */
+.stats { display: flex; justify-content: center; gap: 40px; padding: 40px 20px; flex-wrap: wrap; }
+.stat { text-align: center; }
+.stat .num { font-size: 36px; font-weight: 800; color: var(--accent); }
+.stat .label { font-size: 13px; color: var(--text2); }
+
+/* How to install */
+.install { padding: 40px 20px; max-width: 700px; margin: 0 auto; }
+.install h2 { text-align: center; font-size: 28px; margin-bottom: 24px; }
+.step { display: flex; gap: 14px; margin-bottom: 16px; }
+.step-num { width: 36px; height: 36px; background: var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0; }
+.step-text h4 { font-size: 14px; margin-bottom: 2px; }
+.step-text p { font-size: 13px; color: var(--text2); }
+
+/* Footer */
+footer { text-align: center; padding: 40px 20px; color: var(--text2); font-size: 12px; border-top: 1px solid #222240; }
+
+@media (max-width: 600px) {
+  .hero h1 { font-size: 28px; }
+  .hero .logo { font-size: 56px; }
+  .stats { gap: 20px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="logo">📝</div>
+  <h1>Note <span>App</span></h1>
+  <p class="subtitle">All-in-One Productivity Suite — โน้ต, การเงิน, ห้องประชุม, AI, บ้านอัจฉริยะ</p>
+
+  <div class="badges">
+    <span class="badge">✅ ฟรี 100%</span>
+    <span class="badge">🔐 ข้อมูลเก็บในเครื่อง</span>
+    <span class="badge">🤖 AI 4 ตัว</span>
+    <span class="badge">🎨 14 ธีม</span>
+    <span class="badge">📱 รองรับมือถือ</span>
+  </div>
+
+  <div class="download-btns">
+    <a href="NoteApp.exe" class="dl-btn windows" download>
+      <span class="icon">🖥️</span>
+      <div>
+        <div style="font-size:11px;opacity:.7">ดาวน์โหลดสำหรับ</div>
+        <div>Windows (.exe)</div>
+      </div>
+    </a>
+    <a href="webapp.html" class="dl-btn web">
+      <span class="icon">📱</span>
+      <div>
+        <div style="font-size:11px;opacity:.7">ใช้งานบน</div>
+        <div>มือถือ (Web App)</div>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- Stats -->
+<section class="stats">
+  <div class="stat"><div class="num">30+</div><div class="label">ฟีเจอร์</div></div>
+  <div class="stat"><div class="num">14</div><div class="label">ธีมสี</div></div>
+  <div class="stat"><div class="num">4</div><div class="label">AI Providers</div></div>
+  <div class="stat"><div class="num">8</div><div class="label">ธนาคารไทย</div></div>
+  <div class="stat"><div class="num">11</div><div class="label">ประเภทลงทุน</div></div>
+</section>
+
+<!-- Features -->
+<section class="features">
+  <h2>ฟีเจอร์ทั้งหมด</h2>
+  <div class="feature-grid">
+    <div class="feature-card"><div class="icon">📝</div><h3>โน้ตอัจฉริยะ</h3><p>CRUD, ค้นหา real-time, หมวดหมู่, ลำดับความสำคัญ, ปักหมุด, แจ้งเตือน, Checklist, เทมเพลต 8 แบบ</p></div>
+    <div class="feature-card"><div class="icon">🤖</div><h3>AI Hub</h3><p>Claude, GPT, Gemini, Hugging Face — แชท, สรุปโน้ต, แปลภาษา, ร่าง Email, วิเคราะห์การเงิน</p></div>
+    <div class="feature-card"><div class="icon">💰</div><h3>ระบบการเงิน</h3><p>รายรับ-จ่าย, บิล, 8 ธนาคารไทย, Import SMS/CSV, AI แนะนำลงทุน, ข้อมูลตลาด real-time</p></div>
+    <div class="feature-card"><div class="icon">📈</div><h3>วิเคราะห์ลงทุน</h3><p>Risk-Return Chart, พอร์ตแนะนำ 3 ระดับ, คาดการณ์เงินเติบโต 20 ปี, 11 ประเภทลงทุน</p></div>
+    <div class="feature-card"><div class="icon">🏢</div><h3>ห้องประชุม</h3><p>จองห้อง, ตารางวัน, เช็คห้องว่าง, สร้างโน้ตประชุมอัตโนมัติ, เชื่อม Discord + Classroom</p></div>
+    <div class="feature-card"><div class="icon">🏠</div><h3>บ้านอัจฉริยะ</h3><p>ควบคุมเครื่องใช้ไฟฟ้า, Home Assistant, Tuya Smart, MQTT, HTTP API</p></div>
+    <div class="feature-card"><div class="icon">📊</div><h3>Dashboard</h3><p>KPI Cards, Donut Chart, Bar Chart, Activity 7 วัน, สถานะ Reminder, สรุป AI</p></div>
+    <div class="feature-card"><div class="icon">🔗</div><h3>เชื่อมต่อ</h3><p>LINE, Email, ปฏิทิน (.ics), QR Code, Discord, Google Classroom, แชร์ HTML</p></div>
+    <div class="feature-card"><div class="icon">🔐</div><h3>ความปลอดภัย</h3><p>Login/Signup, ล็อคโน้ต, Auth Guard, ถังขยะ 30 วัน, ข้อมูลเก็บในเครื่อง</p></div>
+    <div class="feature-card"><div class="icon">🎨</div><h3>14 ธีมสี</h3><p>Midnight, Catppuccin, Dracula, Nord, Tokyo Night, Sakura, Mint, Lavender และอื่นๆ</p></div>
+    <div class="feature-card"><div class="icon">📅</div><h3>ปฏิทินรวม</h3><p>แสดงโน้ต + ประชุม + บิล บนปฏิทินเดียว พร้อมจุดสีแยกประเภท</p></div>
+    <div class="feature-card"><div class="icon">💾</div><h3>สำรองข้อมูล</h3><p>Import/Export JSON, Backup อัตโนมัติ, รับ SMS จากมือถือผ่าน WiFi</p></div>
+  </div>
+</section>
+
+<!-- How to install -->
+<section class="install">
+  <h2>วิธีติดตั้ง</h2>
+
+  <div class="step">
+    <div class="step-num">1</div>
+    <div class="step-text"><h4>ดาวน์โหลด</h4><p>กดปุ่ม "Windows (.exe)" ด้านบน</p></div>
+  </div>
+  <div class="step">
+    <div class="step-num">2</div>
+    <div class="step-text"><h4>เปิดไฟล์</h4><p>ดับเบิลคลิก NoteApp.exe — ใช้ได้เลย ไม่ต้องติดตั้ง!</p></div>
+  </div>
+  <div class="step">
+    <div class="step-num">3</div>
+    <div class="step-text"><h4>สมัครสมาชิก</h4><p>สร้างชื่อผู้ใช้ + รหัสผ่าน (หรือกด "ข้าม")</p></div>
+  </div>
+  <div class="step">
+    <div class="step-num">4</div>
+    <div class="step-text"><h4>ใช้งาน!</h4><p>เริ่มจดโน้ต จัดการการเงิน จองห้องประชุม ควบคุมบ้านอัจฉริยะ</p></div>
+  </div>
+
+  <div style="background:var(--surface);border-radius:12px;padding:16px;margin-top:20px">
+    <h4 style="margin-bottom:8px">📱 ใช้บนมือถือ</h4>
+    <p style="font-size:13px;color:var(--text2);line-height:1.8">
+      กดปุ่ม "มือถือ (Web App)" → เปิดบน Browser มือถือ<br>
+      หรือ Add to Home Screen เพื่อใช้งานเหมือนแอปจริง<br>
+      รองรับทุกรุ่น: Android, iPhone, iPad, Tablet
+    </p>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <p>📝 Note App v2.0 — All-in-One Productivity Suite</p>
+  <p style="margin-top:6px">Made with ❤️ · ฟรี 100% · ข้อมูลเก็บในเครื่องเท่านั้น 🔐</p>
+</footer>
+
+</body>
+</html>
