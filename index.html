@@ -1,8 +1,12 @@
-<title>NoteApp</title>
-<meta name="claude:viewport-fit-sides" content="cover">
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NoteApp — Productivity Suite</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400&display=swap">
-
 <style>
+*{margin:0;padding:0;box-sizing:border-box}
 :root {
   --bg: #0e1017;
   --surface: #161922;
@@ -11,223 +15,104 @@
   --text-2: #737a8c;
   --accent: #7b93f7;
   --accent-2: #5a73d4;
-  --green: #4aba78;
   --font: 'IBM Plex Sans Thai', 'IBM Plex Sans', system-ui, sans-serif;
   --mono: 'JetBrains Mono', monospace;
   color-scheme: dark;
 }
 @media (prefers-color-scheme: light) {
   :root:not([data-theme="dark"]) {
-    --bg: #f4f5f8;
-    --surface: #ffffff;
-    --surface-2: #edf0f5;
-    --text: #1a1d28;
-    --text-2: #6b7080;
-    --accent: #5570e8;
-    --accent-2: #4060d0;
-    --green: #2a9058;
+    --bg: #f4f5f8; --surface: #ffffff; --surface-2: #edf0f5;
+    --text: #1a1d28; --text-2: #6b7080;
+    --accent: #5570e8; --accent-2: #4060d0;
     color-scheme: light;
   }
 }
 :root[data-theme="light"] {
-  --bg: #f4f5f8;
-  --surface: #ffffff;
-  --surface-2: #edf0f5;
-  --text: #1a1d28;
-  --text-2: #6b7080;
-  --accent: #5570e8;
-  --accent-2: #4060d0;
-  --green: #2a9058;
+  --bg: #f4f5f8; --surface: #ffffff; --surface-2: #edf0f5;
+  --text: #1a1d28; --text-2: #6b7080;
+  --accent: #5570e8; --accent-2: #4060d0;
   color-scheme: light;
 }
-
 body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: var(--font);
-  padding-left: max(16px, env(safe-area-inset-left, 0px));
-  padding-right: max(16px, env(safe-area-inset-right, 0px));
-  padding-block: 0;
+  background: var(--bg); color: var(--text);
+  font-family: var(--font); padding: 0 16px;
 }
-
 .wrap { max-width: 860px; margin: 0 auto; }
 
-/* Hero */
-.hero {
-  text-align: center;
-  padding: 80px 0 60px;
-}
+.hero { text-align: center; padding: 80px 0 60px; }
 .hero-logo {
-  width: 72px; height: 72px;
-  border-radius: 18px;
+  width: 72px; height: 72px; border-radius: 18px;
   background: linear-gradient(135deg, var(--accent), var(--accent-2));
-  display: inline-flex;
-  align-items: center; justify-content: center;
+  display: inline-flex; align-items: center; justify-content: center;
   font-size: 32px; font-weight: 700; color: #fff;
   margin-bottom: 24px;
   box-shadow: 0 8px 32px rgba(123,147,247,0.25);
 }
-.hero h1 {
-  font-size: 42px; font-weight: 700;
-  letter-spacing: -1px;
-  margin-bottom: 12px;
-  line-height: 1.2;
-}
+.hero h1 { font-size: 42px; font-weight: 700; letter-spacing: -1px; margin-bottom: 12px; }
 .hero h1 span { color: var(--accent); }
-.hero p {
-  font-size: 17px; color: var(--text-2);
-  max-width: 480px; margin: 0 auto 32px;
-  line-height: 1.7;
-}
-.hero-actions {
-  display: flex; gap: 12px;
-  justify-content: center;
-  flex-wrap: wrap;
-}
+.hero p { font-size: 17px; color: var(--text-2); max-width: 480px; margin: 0 auto 32px; line-height: 1.7; }
+.hero-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
 .btn-primary {
   display: inline-flex; align-items: center; gap: 8px;
-  padding: 14px 28px;
-  background: var(--accent);
+  padding: 14px 28px; background: var(--accent);
   color: #fff; font-size: 15px; font-weight: 600;
-  border-radius: 10px; text-decoration: none;
-  transition: opacity 0.15s;
+  border-radius: 10px; text-decoration: none; transition: opacity 0.15s;
 }
 .btn-primary:hover { opacity: 0.88; }
 .btn-secondary {
   display: inline-flex; align-items: center; gap: 8px;
-  padding: 14px 28px;
-  background: var(--surface-2);
+  padding: 14px 28px; background: var(--surface-2);
   color: var(--text); font-size: 15px; font-weight: 500;
-  border-radius: 10px; text-decoration: none;
-  transition: background 0.15s;
+  border-radius: 10px; text-decoration: none; transition: background 0.15s;
 }
 .btn-secondary:hover { background: var(--surface); }
-.hero-meta {
-  margin-top: 20px;
-  font-size: 13px; color: var(--text-2);
-}
+.hero-meta { margin-top: 20px; font-size: 13px; color: var(--text-2); }
 .hero-meta span { margin: 0 6px; }
 
-/* Features */
-.section-title {
-  text-align: center;
-  font-size: 28px; font-weight: 700;
-  letter-spacing: -0.5px;
-  margin: 60px 0 8px;
-}
-.section-sub {
-  text-align: center;
-  font-size: 15px; color: var(--text-2);
-  margin-bottom: 36px;
-}
+.section-title { text-align: center; font-size: 28px; font-weight: 700; letter-spacing: -0.5px; margin: 60px 0 8px; }
+.section-sub { text-align: center; font-size: 15px; color: var(--text-2); margin-bottom: 36px; }
+
 .features {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 14px;
-  margin-bottom: 60px;
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 14px; margin-bottom: 60px;
 }
 .feature-card {
-  background: var(--surface);
-  border-radius: 12px;
-  padding: 24px;
-  border: 1px solid var(--surface-2);
-  transition: border-color 0.2s;
+  background: var(--surface); border-radius: 12px; padding: 24px;
+  border: 1px solid var(--surface-2); transition: border-color 0.2s;
 }
 .feature-card:hover { border-color: var(--accent); }
 .feature-icon {
-  width: 40px; height: 40px;
-  border-radius: 10px;
-  background: var(--surface-2);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 18px;
-  margin-bottom: 14px;
-  color: var(--accent);
-  font-family: 'Segoe MDL2 Assets', system-ui;
+  width: 40px; height: 40px; border-radius: 10px;
+  background: var(--surface-2); display: flex; align-items: center; justify-content: center;
+  font-size: 20px; margin-bottom: 14px;
 }
-.feature-card h3 {
-  font-size: 15px; font-weight: 600;
-  margin-bottom: 6px;
-}
-.feature-card p {
-  font-size: 13px; color: var(--text-2);
-  line-height: 1.6;
-}
+.feature-card h3 { font-size: 15px; font-weight: 600; margin-bottom: 6px; }
+.feature-card p { font-size: 13px; color: var(--text-2); line-height: 1.6; }
 
-/* Screenshots placeholder */
-.screenshots {
-  background: var(--surface);
-  border-radius: 16px;
-  border: 1px solid var(--surface-2);
-  padding: 40px;
-  text-align: center;
-  margin-bottom: 60px;
-}
-.screenshots .mock {
-  background: var(--bg);
-  border-radius: 10px;
-  border: 1px solid var(--surface-2);
-  height: 320px;
-  display: flex; align-items: center; justify-content: center;
-  color: var(--text-2); font-size: 14px;
-}
-
-/* Install steps */
-.steps {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-  margin-bottom: 60px;
-}
+.steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 60px; }
 @media (max-width: 600px) { .steps { grid-template-columns: 1fr; } }
-.step {
-  background: var(--surface);
-  border-radius: 12px;
-  padding: 24px;
-  border: 1px solid var(--surface-2);
-  text-align: center;
-}
+.step { background: var(--surface); border-radius: 12px; padding: 24px; border: 1px solid var(--surface-2); text-align: center; }
 .step-num {
-  width: 32px; height: 32px;
-  border-radius: 50%;
-  background: var(--accent);
+  width: 32px; height: 32px; border-radius: 50%; background: var(--accent);
   color: #fff; font-size: 14px; font-weight: 700;
-  display: inline-flex; align-items: center; justify-content: center;
-  margin-bottom: 12px;
+  display: inline-flex; align-items: center; justify-content: center; margin-bottom: 12px;
 }
 .step h3 { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
 .step p { font-size: 13px; color: var(--text-2); }
 
-/* Tech */
-.tech-bar {
-  display: flex; gap: 10px;
-  justify-content: center;
-  flex-wrap: wrap;
-  margin-bottom: 60px;
-}
+.tech-bar { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-bottom: 60px; }
 .tech-tag {
-  padding: 6px 14px;
-  background: var(--surface);
-  border: 1px solid var(--surface-2);
-  border-radius: 8px;
-  font-size: 13px; font-weight: 500;
-  color: var(--text-2);
-  font-family: var(--mono);
+  padding: 6px 14px; background: var(--surface); border: 1px solid var(--surface-2);
+  border-radius: 8px; font-size: 13px; font-weight: 500; color: var(--text-2); font-family: var(--mono);
 }
 
-/* Footer */
-.footer {
-  text-align: center;
-  padding: 40px 0;
-  border-top: 1px solid var(--surface-2);
-  font-size: 13px;
-  color: var(--text-2);
-}
+.footer { text-align: center; padding: 40px 0; border-top: 1px solid var(--surface-2); font-size: 13px; color: var(--text-2); }
 .footer a { color: var(--accent); text-decoration: none; }
 </style>
-
+</head>
+<body>
 <div class="wrap">
 
-  <!-- Hero -->
   <section class="hero">
     <div class="hero-logo">N</div>
     <h1>Note<span>App</span></h1>
@@ -247,54 +132,52 @@ body {
     </div>
   </section>
 
-  <!-- Features -->
   <h2 class="section-title">ทุกอย่างในแอปเดียว</h2>
   <p class="section-sub">เครื่องมือ productivity ที่ออกแบบให้ใช้งานง่ายและสะอาดตา</p>
 
   <div class="features">
     <div class="feature-card">
-      <div class="feature-icon">&#xE8A5;</div>
+      <div class="feature-icon">📝</div>
       <h3>โน้ต</h3>
       <p>จดบันทึก จัดหมวดหมู่ ปักหมุด ล็อครหัส ค้นหา แจ้งเตือน Export ได้หลายรูปแบบ</p>
     </div>
     <div class="feature-card">
-      <div class="feature-icon">&#xE8C7;</div>
+      <div class="feature-icon">💰</div>
       <h3>การเงิน</h3>
       <p>รายรับ-จ่าย บิล นำเข้า SMS ธนาคาร ข้อมูลตลาด AI วิเคราะห์การลงทุน</p>
     </div>
     <div class="feature-card">
-      <div class="feature-icon">&#xE716;</div>
+      <div class="feature-icon">👥</div>
       <h3>ประชุม</h3>
       <p>จองห้อง ดูตาราง ส่งแจ้งเตือน Discord / Google Classroom</p>
     </div>
     <div class="feature-card">
-      <div class="feature-icon">&#xE736;</div>
+      <div class="feature-icon">📚</div>
       <h3>Study Hub</h3>
       <p>AI สรุปบทเรียน แฟลชการ์ด ออกข้อสอบ GPA Calculator Focus Timer</p>
     </div>
     <div class="feature-card">
-      <div class="feature-icon">&#xE8F2;</div>
+      <div class="feature-icon">💬</div>
       <h3>Community</h3>
       <p>กระดานโพสต์ ถามตอบ แชร์ผ่าน WiFi ให้คนรอบข้างเข้าร่วมได้</p>
     </div>
     <div class="feature-card">
-      <div class="feature-icon">&#xE753;</div>
+      <div class="feature-icon">☁️</div>
       <h3>Cloud Sync</h3>
       <p>ซิงค์ข้อมูลผ่าน GitHub Gist หรือ Firebase ใช้ได้หลายเครื่อง</p>
     </div>
     <div class="feature-card">
-      <div class="feature-icon">&#xE790;</div>
+      <div class="feature-icon">🎨</div>
       <h3>20 ธีม</h3>
       <p>Dark / Light สลับได้ตามใจ Midnight, Dracula, Nord, Sakura และอื่นอีก</p>
     </div>
     <div class="feature-card">
-      <div class="feature-icon">&#xE945;</div>
+      <div class="feature-icon">🤖</div>
       <h3>AI</h3>
       <p>จัดหมวดอัตโนมัติ สรุปโน้ต วิเคราะห์ความเร่งด่วน แนะนำสิ่งที่ควรทำ</p>
     </div>
   </div>
 
-  <!-- Install -->
   <h2 class="section-title">เริ่มใช้ใน 3 ขั้นตอน</h2>
   <p class="section-sub">ไม่ต้องติดตั้ง ไม่ต้อง login ใช้ได้ทันที</p>
 
@@ -316,7 +199,6 @@ body {
     </div>
   </div>
 
-  <!-- Tech -->
   <h2 class="section-title">สร้างด้วย</h2>
   <div class="tech-bar">
     <span class="tech-tag">C#</span>
@@ -327,9 +209,10 @@ body {
     <span class="tech-tag">REST API</span>
   </div>
 
-  <!-- Footer -->
   <footer class="footer">
     NoteApp v2.0 &middot; Made by <a href="https://github.com/FardeV-hub" target="_blank">FardeV-hub</a> &middot; Open Source on <a href="https://github.com/FardeV-hub/noteapp" target="_blank">GitHub</a>
   </footer>
 
 </div>
+</body>
+</html>
