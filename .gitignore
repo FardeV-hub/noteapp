@@ -7,3 +7,4 @@ publish/
 .vs/
 *.json
 !NoteApp.csproj
+publish-single/
