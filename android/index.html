@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<title>Note App</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#6c63ff">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="apple-touch-icon" href="icon-192.png">
+<style>
+:root {
+  --bg: #0f0f1a;
+  --surface: #1a1a2e;
+  --surface2: #222240;
+  --text: #e0e0e0;
+  --text2: #8888aa;
+  --accent: #6c63ff;
+  --accent2: #8b83ff;
+  --green: #2ecc71;
+  --yellow: #f1c40f;
+  --red: #e74c3c;
+  --orange: #e67e22;
+  --blue: #3498db;
+  --radius: 14px;
+  --radius-sm: 8px;
+}
+[data-theme="light"] {
+  --bg: #f0f2f5;
+  --surface: #ffffff;
+  --surface2: #e8eaed;
+  --text: #1a1a2e;
+  --text2: #666680;
+  --accent: #6c63ff;
+  --accent2: #5a52d5;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: 'Segoe UI', -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100dvh;
+  padding-bottom: 80px;
+  transition: background .3s, color .3s;
+}
+
+/* Header */
+.header {
+  background: var(--surface);
+  padding: 12px 16px;
+  display: flex; align-items: center; justify-content: space-between;
+  position: sticky; top: 0; z-index: 100;
+  border-bottom: 1px solid var(--surface2);
+}
+.header h1 { font-size: 18px; }
+.header-btns { display: flex; gap: 8px; align-items: center; }
+.theme-btn, .view-btn {
+  background: var(--surface2); border: none; color: var(--text);
+  width: 36px; height: 36px; border-radius: 50%; font-size: 18px; cursor: pointer;
+}
+
+/* Tabs */
+.tabs {
+  display: flex; gap: 6px; padding: 10px 16px;
+  overflow-x: auto; -webkit-overflow-scrolling: touch;
+}
+.tabs::-webkit-scrollbar { display: none; }
+.tab {
+  padding: 6px 14px; border-radius: 20px; font-size: 13px; white-space: nowrap;
+  background: var(--surface); border: 1px solid var(--surface2);
+  color: var(--text2); cursor: pointer; transition: all .2s;
+}
+.tab.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+/* Search */
+.search-bar {
+  padding: 0 16px 10px;
+}
+.search-bar input {
+  width: 100%; padding: 10px 14px; border-radius: var(--radius);
+  background: var(--surface); border: 1px solid var(--surface2);
+  color: var(--text); font-size: 14px; outline: none;
+  transition: border .2s;
+}
+.search-bar input:focus { border-color: var(--accent); }
+.search-bar input::placeholder { color: var(--text2); }
+
+/* Group header */
+.group-header {
+  display: flex; align-items: center; gap: 8px;
+  padding: 12px 16px 4px; font-size: 14px; font-weight: 700; color: var(--text2);
+}
+.group-count {
+  background: var(--surface2); padding: 1px 8px; border-radius: 10px; font-size: 12px;
+}
+
+/* Note cards */
+.note-list { padding: 0 12px; }
+.note-card {
+  background: var(--surface); border-radius: var(--radius); padding: 14px;
+  margin-bottom: 8px; cursor: pointer; transition: transform .15s, box-shadow .15s;
+  border: 2px solid transparent;
+}
+.note-card:active { transform: scale(0.98); }
+.note-card.selected { border-color: var(--accent); }
+.note-card .top { display: flex; align-items: center; gap: 6px; margin-bottom: 6px; }
+.note-card .title { font-size: 15px; font-weight: 600; flex: 1; }
+.note-card .pin-btn {
+  background: none; border: none; font-size: 16px; cursor: pointer;
+  opacity: 0.5; padding: 4px;
+}
+.note-card .pin-btn:hover { opacity: 1; }
+.note-card .meta { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.badge {
+  padding: 2px 8px; border-radius: 6px; font-size: 11px;
+  background: var(--surface2); color: var(--text2);
+}
+.badge.pri-high { background: #e74c3c22; color: #e74c3c; }
+.badge.pri-med { background: #f1c40f22; color: #d4a800; }
+.badge.pri-low { background: #2ecc7122; color: #2ecc71; }
+.date-text { font-size: 11px; color: var(--text2); margin-left: auto; }
+
+/* FAB */
+.fab {
+  position: fixed; bottom: 24px; right: 20px; z-index: 200;
+  width: 56px; height: 56px; border-radius: 50%;
+  background: var(--accent); color: #fff; border: none;
+  font-size: 28px; cursor: pointer;
+  box-shadow: 0 4px 16px rgba(108,99,255,.4);
+  transition: transform .2s;
+}
+.fab:active { transform: scale(0.9); }
+
+/* Bottom Sheet / Modal */
+.overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,.5); z-index: 300;
+  display: none; opacity: 0; transition: opacity .25s;
+}
+.overlay.show { display: block; opacity: 1; }
+.sheet {
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 301;
+  background: var(--surface); border-radius: 20px 20px 0 0;
+  max-height: 92dvh; overflow-y: auto; padding: 20px 16px 30px;
+  transform: translateY(100%); transition: transform .3s ease;
+}
+.sheet.show { transform: translateY(0); }
+.sheet-handle {
+  width: 40px; height: 4px; background: var(--surface2);
+  border-radius: 2px; margin: 0 auto 16px;
+}
+.sheet h2 { font-size: 18px; margin-bottom: 16px; }
+
+/* Form */
+.form-group { margin-bottom: 14px; }
+.form-group label { display: block; font-size: 13px; color: var(--text2); margin-bottom: 4px; }
+.form-group input, .form-group textarea, .form-group select {
+  width: 100%; padding: 10px 12px; border-radius: var(--radius-sm);
+  background: var(--bg); border: 1px solid var(--surface2);
+  color: var(--text); font-size: 14px; font-family: inherit; outline: none;
+}
+.form-group textarea { height: 80px; resize: vertical; }
+.form-group select { appearance: none; cursor: pointer; }
+.form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+  border-color: var(--accent);
+}
+.form-row { display: flex; gap: 8px; }
+.form-row > * { flex: 1; }
+.time-row { display: flex; gap: 6px; align-items: center; }
+.time-row input { width: 55px; text-align: center; }
+.time-row span { font-weight: bold; }
+
+/* Buttons */
+.btn {
+  padding: 10px 18px; border-radius: var(--radius-sm); font-size: 14px;
+  font-weight: 600; border: none; cursor: pointer; transition: opacity .2s;
+}
+.btn:active { opacity: .8; }
+.btn-primary { background: var(--accent); color: #fff; }
+.btn-green { background: var(--green); color: #fff; }
+.btn-red { background: var(--red); color: #fff; }
+.btn-orange { background: var(--orange); color: #fff; }
+.btn-outline {
+  background: transparent; color: var(--text2); border: 1px solid var(--surface2);
+}
+.btn-group { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+
+/* Reminder popup */
+.reminder-popup {
+  position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%);
+  background: var(--surface); border-radius: var(--radius); padding: 24px;
+  z-index: 400; width: min(90vw, 380px); text-align: center;
+  box-shadow: 0 8px 32px rgba(0,0,0,.4);
+}
+.reminder-popup h3 { font-size: 20px; margin: 10px 0; }
+.reminder-popup .info { color: var(--text2); font-size: 13px; margin-bottom: 15px; }
+
+/* Empty state */
+.empty {
+  text-align: center; padding: 60px 20px; color: var(--text2);
+}
+.empty .icon { font-size: 48px; margin-bottom: 10px; }
+
+/* Priority colors in list */
+.pri-icon { font-size: 14px; }
+
+@media (min-width: 768px) {
+  body { max-width: 500px; margin: 0 auto; }
+}
+</style>
+</head>
+<body data-theme="dark">
+
+<!-- Header -->
+<div class="header">
+  <h1>Note App</h1>
+  <div class="header-btns">
+    <button class="view-btn" id="viewToggle" title="สลับโหมด">📂</button>
+    <button class="theme-btn" id="themeToggle" title="สลับธีม">☀️</button>
+  </div>
+</div>
+
+<!-- Category tabs -->
+<div class="tabs" id="categoryTabs"></div>
+
+<!-- Search -->
+<div class="search-bar">
+  <input type="text" id="searchInput" placeholder="ค้นหาโน้ต...">
+</div>
+
+<!-- Note list -->
+<div class="note-list" id="noteList"></div>
+
+<!-- FAB -->
+<button class="fab" id="fabAdd">+</button>
+
+<!-- Overlay -->
+<div class="overlay" id="overlay"></div>
+
+<!-- Bottom Sheet Form -->
+<div class="sheet" id="sheet">
+  <div class="sheet-handle"></div>
+  <h2 id="sheetTitle">เพิ่มโน้ตใหม่</h2>
+
+  <div class="form-group">
+    <label>หัวข้อ</label>
+    <input type="text" id="fTitle" placeholder="พิมพ์หัวข้อโน้ต...">
+  </div>
+  <div class="form-group">
+    <label>เนื้อหา</label>
+    <textarea id="fContent" placeholder="พิมพ์เนื้อหา..."></textarea>
+  </div>
+  <div class="form-row">
+    <div class="form-group">
+      <label>หมวดหมู่</label>
+      <select id="fCategory"></select>
+    </div>
+    <div class="form-group">
+      <label>ความสำคัญ</label>
+      <select id="fPriority">
+        <option value="ปกติ">⚪ ปกติ</option>
+        <option value="ต่ำ">🟢 ต่ำ</option>
+        <option value="ปานกลาง">🟡 ปานกลาง</option>
+        <option value="สูง">🔴 สูง</option>
+      </select>
+    </div>
+  </div>
+  <div class="form-group">
+    <label>แจ้งเตือน</label>
+    <div class="form-row">
+      <input type="date" id="fDate">
+      <div class="time-row">
+        <input type="number" id="fHour" min="0" max="23" placeholder="ชม.">
+        <span>:</span>
+        <input type="number" id="fMin" min="0" max="59" placeholder="นาที">
+      </div>
+    </div>
+  </div>
+  <div class="form-group">
+    <label>แจ้งล่วงหน้า</label>
+    <select id="fRemindBefore">
+      <option value="">ไม่แจ้งเตือน</option>
+      <option value="0">ตรงเวลา</option>
+      <option value="5">5 นาทีก่อน</option>
+      <option value="15">15 นาทีก่อน</option>
+      <option value="30">30 นาทีก่อน</option>
+      <option value="60">1 ชั่วโมงก่อน</option>
+    </select>
+  </div>
+
+  <div class="btn-group">
+    <button class="btn btn-primary" id="btnSave">บันทึก</button>
+    <button class="btn btn-orange" id="btnPin">📌 ปักหมุด</button>
+    <button class="btn btn-red" id="btnDelete" style="display:none">ลบ</button>
+    <button class="btn btn-outline" id="btnCancel">ยกเลิก</button>
+  </div>
+  <div class="btn-group" style="margin-top:8px">
+    <button class="btn btn-outline" id="btnExport">Export โน้ตนี้</button>
+    <button class="btn btn-outline" id="btnExportAll">Export ทั้งหมด</button>
+  </div>
+</div>
+
+<script>
+const PRIORITIES = {
+  "ปกติ":    { icon:"⚪", rank:3, cls:"" },
+  "ต่ำ":     { icon:"🟢", rank:4, cls:"pri-low" },
+  "ปานกลาง": { icon:"🟡", rank:2, cls:"pri-med" },
+  "สูง":     { icon:"🔴", rank:1, cls:"pri-high" },
+};
+const DEFAULT_CATS = ["ทั่วไป","งาน","ส่วนตัว","ไอเดีย","สำคัญ"];
+
+let notes = JSON.parse(localStorage.getItem("notes") || "[]");
+let selectedIdx = null;
+let filterCat = "ทั้งหมด";
+let groupMode = true;
+let darkMode = true;
+
+// Elements
+const $list = document.getElementById("noteList");
+const $search = document.getElementById("searchInput");
+const $tabs = document.getElementById("categoryTabs");
+const $sheet = document.getElementById("sheet");
+const $overlay = document.getElementById("overlay");
+const $sheetTitle = document.getElementById("sheetTitle");
+const $btnSave = document.getElementById("btnSave");
+const $btnDelete = document.getElementById("btnDelete");
+const $btnPin = document.getElementById("btnPin");
+
+function save() { localStorage.setItem("notes", JSON.stringify(notes)); }
+
+function getAllCats() {
+  const s = new Set(DEFAULT_CATS);
+  notes.forEach(n => s.add(n.category || "ทั่วไป"));
+  return [...s];
+}
+
+function renderTabs() {
+  const cats = getAllCats();
+  $tabs.innerHTML = `<div class="tab ${filterCat==='ทั้งหมด'?'active':''}" data-cat="ทั้งหมด">ทั้งหมด</div>` +
+    cats.map(c => `<div class="tab ${filterCat===c?'active':''}" data-cat="${c}">${c}</div>`).join("");
+  $tabs.querySelectorAll(".tab").forEach(t =>
+    t.onclick = () => { filterCat = t.dataset.cat; renderTabs(); renderList(); }
+  );
+}
+
+function renderCategoryOptions() {
+  const sel = document.getElementById("fCategory");
+  const cats = getAllCats();
+  sel.innerHTML = cats.map(c => `<option value="${c}">${c}</option>`).join("") +
+    `<option value="__new__">+ เพิ่มหมวดใหม่...</option>`;
+  sel.onchange = () => {
+    if (sel.value === "__new__") {
+      const name = prompt("ชื่อหมวดหมู่ใหม่:");
+      if (name && name.trim()) {
+        sel.innerHTML = ""; renderCategoryOptions();
+        sel.value = name.trim();
+        if (![...sel.options].find(o => o.value === name.trim())) {
+          sel.insertBefore(new Option(name.trim(), name.trim()), sel.lastChild);
+          sel.value = name.trim();
+        }
+      } else { sel.value = "ทั่วไป"; }
+    }
+  };
+}
+
+function cardHTML(note, idx) {
+  const p = PRIORITIES[note.priority||"ปกติ"] || PRIORITIES["ปกติ"];
+  const pinIcon = note.pinned ? "📌" : "";
+  const bell = note.reminder ? " ⏰" : "";
+  const priCls = p.cls ? `badge ${p.cls}` : "badge";
+  return `<div class="note-card ${selectedIdx===idx?'selected':''}" data-idx="${idx}">
+    <div class="top">
+      <span class="pri-icon">${pinIcon} ${p.icon}</span>
+      <span class="title">${esc(note.title)}${bell}</span>
+      <button class="pin-btn" data-pin="${idx}">${note.pinned?'✕':'📌'}</button>
+    </div>
+    <div class="meta">
+      <span class="badge">${esc(note.category||'ทั่วไป')}</span>
+      <span class="${priCls}">${esc(note.priority||'ปกติ')}</span>
+      <span class="date-text">${esc(note.created||'')}</span>
+    </div>
+  </div>`;
+}
+
+function renderList() {
+  const q = $search.value.trim().toLowerCase();
+  let matched = notes.map((n,i) => ({n,i})).filter(({n}) => {
+    if (filterCat !== "ทั้งหมด" && (n.category||"ทั่วไป") !== filterCat) return false;
+    if (q && !n.title.toLowerCase().includes(q) && !(n.content||"").toLowerCase().includes(q)) return false;
+    return true;
+  });
+
+  const sortKey = ({n}) => (PRIORITIES[n.priority||"ปกติ"]||PRIORITIES["ปกติ"]).rank;
+  const pinned = matched.filter(({n}) => n.pinned).sort((a,b) => sortKey(a)-sortKey(b));
+  const unpinned = matched.filter(({n}) => !n.pinned).sort((a,b) => sortKey(a)-sortKey(b));
+
+  let html = "";
+
+  if (groupMode && filterCat === "ทั้งหมด") {
+    if (pinned.length) {
+      html += `<div class="group-header">📌 ปักหมุด <span class="group-count">${pinned.length}</span></div>`;
+      pinned.forEach(({n,i}) => html += cardHTML(n,i));
+    }
+    const catGroups = {};
+    unpinned.forEach(({n,i}) => {
+      const c = n.category || "ทั่วไป";
+      (catGroups[c] = catGroups[c]||[]).push({n,i});
+    });
+    getAllCats().forEach(cat => {
+      if (!catGroups[cat]) return;
+      html += `<div class="group-header">📂 ${esc(cat)} <span class="group-count">${catGroups[cat].length}</span></div>`;
+      catGroups[cat].forEach(({n,i}) => html += cardHTML(n,i));
+    });
+  } else {
+    [...pinned, ...unpinned].forEach(({n,i}) => html += cardHTML(n,i));
+  }
+
+  if (!matched.length) {
+    html = `<div class="empty"><div class="icon">📝</div>ไม่พบโน้ต<br>กดปุ่ม + เพื่อเพิ่ม</div>`;
+  }
+
+  $list.innerHTML = html;
+
+  $list.querySelectorAll(".note-card").forEach(card => {
+    card.onclick = (e) => {
+      if (e.target.classList.contains("pin-btn")) return;
+      openEdit(+card.dataset.idx);
+    };
+  });
+  $list.querySelectorAll(".pin-btn").forEach(btn => {
+    btn.onclick = (e) => {
+      e.stopPropagation();
+      const i = +btn.dataset.pin;
+      notes[i].pinned = !notes[i].pinned;
+      save(); renderList();
+    };
+  });
+}
+
+function esc(s) { const d=document.createElement("div"); d.textContent=s; return d.innerHTML; }
+
+// Sheet
+function openSheet(editIdx) {
+  selectedIdx = editIdx;
+  const isEdit = editIdx !== null;
+  $sheetTitle.textContent = isEdit ? "แก้ไขโน้ต" : "เพิ่มโน้ตใหม่";
+  $btnDelete.style.display = isEdit ? "" : "none";
+  $btnSave.textContent = isEdit ? "บันทึก" : "เพิ่มโน้ต";
+
+  renderCategoryOptions();
+  const now = new Date();
+
+  if (isEdit) {
+    const n = notes[editIdx];
+    document.getElementById("fTitle").value = n.title;
+    document.getElementById("fContent").value = n.content || "";
+    document.getElementById("fCategory").value = n.category || "ทั่วไป";
+    document.getElementById("fPriority").value = n.priority || "ปกติ";
+    $btnPin.textContent = n.pinned ? "เลิกปักหมุด" : "📌 ปักหมุด";
+    if (n.reminder) {
+      const [d, t] = n.reminder.split(" ");
+      document.getElementById("fDate").value = d;
+      const [h,m] = t.split(":");
+      document.getElementById("fHour").value = parseInt(h);
+      document.getElementById("fMin").value = parseInt(m);
+      document.getElementById("fRemindBefore").value = n.remind_minutes ?? "";
+    } else {
+      document.getElementById("fDate").value = now.toISOString().slice(0,10);
+      document.getElementById("fHour").value = now.getHours();
+      document.getElementById("fMin").value = now.getMinutes();
+      document.getElementById("fRemindBefore").value = "";
+    }
+  } else {
+    document.getElementById("fTitle").value = "";
+    document.getElementById("fContent").value = "";
+    document.getElementById("fCategory").value = "ทั่วไป";
+    document.getElementById("fPriority").value = "ปกติ";
+    document.getElementById("fDate").value = now.toISOString().slice(0,10);
+    document.getElementById("fHour").value = now.getHours();
+    document.getElementById("fMin").value = now.getMinutes();
+    document.getElementById("fRemindBefore").value = "";
+    $btnPin.textContent = "📌 ปักหมุด";
+  }
+  $overlay.classList.add("show");
+  $sheet.classList.add("show");
+}
+
+function closeSheet() {
+  $overlay.classList.remove("show");
+  $sheet.classList.remove("show");
+  selectedIdx = null;
+  renderList();
+}
+
+function openEdit(idx) { openSheet(idx); }
+
+// Save
+$btnSave.onclick = () => {
+  const title = document.getElementById("fTitle").value.trim();
+  if (!title) { alert("กรุณาใส่หัวข้อโน้ต"); return; }
+  const content = document.getElementById("fContent").value.trim();
+  const category = document.getElementById("fCategory").value;
+  const priority = document.getElementById("fPriority").value;
+  const dateVal = document.getElementById("fDate").value;
+  const hour = (document.getElementById("fHour").value||"0").padStart(2,"0");
+  const min = (document.getElementById("fMin").value||"0").padStart(2,"0");
+  const remindMin = document.getElementById("fRemindBefore").value;
+
+  let reminder = "";
+  let remind_minutes = "";
+  if (remindMin !== "") {
+    reminder = `${dateVal} ${hour}:${min}`;
+    remind_minutes = remindMin;
+  }
+
+  const now = new Date();
+  const created = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,"0")}-${String(now.getDate()).padStart(2,"0")} ${String(now.getHours()).padStart(2,"0")}:${String(now.getMinutes()).padStart(2,"0")}`;
+
+  if (selectedIdx !== null) {
+    const n = notes[selectedIdx];
+    n.title = title; n.content = content; n.category = category;
+    n.priority = priority; n.reminder = reminder; n.remind_minutes = remind_minutes;
+    delete n.notified;
+  } else {
+    notes.push({ title, content, category, priority, created, reminder, remind_minutes, pinned: false });
+  }
+  save(); renderTabs(); closeSheet();
+};
+
+$btnDelete.onclick = () => {
+  if (selectedIdx !== null && confirm(`ลบโน้ต "${notes[selectedIdx].title}"?`)) {
+    notes.splice(selectedIdx, 1);
+    save(); renderTabs(); closeSheet();
+  }
+};
+
+$btnPin.onclick = () => {
+  if (selectedIdx !== null) {
+    notes[selectedIdx].pinned = !notes[selectedIdx].pinned;
+    $btnPin.textContent = notes[selectedIdx].pinned ? "เลิกปักหมุด" : "📌 ปักหมุด";
+    save();
+  }
+};
+
+document.getElementById("btnCancel").onclick = closeSheet;
+$overlay.onclick = closeSheet;
+document.getElementById("fabAdd").onclick = () => openSheet(null);
+
+// Export
+document.getElementById("btnExport").onclick = () => {
+  if (selectedIdx === null) return;
+  downloadNote([notes[selectedIdx]], notes[selectedIdx].title + ".txt");
+};
+document.getElementById("btnExportAll").onclick = () => {
+  if (!notes.length) { alert("ไม่มีโน้ต"); return; }
+  downloadNote(notes, "all_notes.txt");
+};
+function downloadNote(list, filename) {
+  const sep = "\n" + "═".repeat(50) + "\n\n";
+  const txt = list.map(n =>
+    `หัวข้อ      : ${n.title}\nหมวดหมู่    : ${n.category||"ทั่วไป"}\nความสำคัญ   : ${n.priority||"ปกติ"}\nวันที่      : ${n.created}\n${"─".repeat(40)}\n${n.content||""}`
+  ).join(sep);
+  const blob = new Blob([txt], {type:"text/plain;charset=utf-8"});
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = filename;
+  a.click();
+}
+
+// Theme
+document.getElementById("themeToggle").onclick = () => {
+  darkMode = !darkMode;
+  document.body.dataset.theme = darkMode ? "dark" : "light";
+  document.getElementById("themeToggle").textContent = darkMode ? "☀️" : "🌙";
+  localStorage.setItem("theme", darkMode ? "dark" : "light");
+};
+
+// View toggle
+document.getElementById("viewToggle").onclick = () => {
+  groupMode = !groupMode;
+  document.getElementById("viewToggle").textContent = groupMode ? "📂" : "📋";
+  renderList();
+};
+
+// Search
+$search.oninput = () => renderList();
+
+// Reminder checker
+function checkReminders() {
+  const now = new Date();
+  notes.forEach((n, i) => {
+    if (!n.reminder || n.notified || n.remind_minutes === "") return;
+    const [d, t] = n.reminder.split(" ");
+    const [h, m] = t.split(":");
+    const rdt = new Date(d + "T" + h + ":" + m);
+    const alertTime = new Date(rdt.getTime() - (parseInt(n.remind_minutes)||0) * 60000);
+    if (now >= alertTime) {
+      n.notified = true; save();
+      showReminderPopup(n, rdt, parseInt(n.remind_minutes)||0);
+    }
+  });
+}
+function showReminderPopup(note, rdt, minBefore) {
+  const div = document.createElement("div");
+  div.innerHTML = `<div class="overlay show" style="display:block"></div>
+    <div class="reminder-popup">
+      <div style="font-size:40px">⏰</div>
+      <h3>${esc(note.title)}</h3>
+      <div class="info">${esc(note.category||"ทั่วไป")} · ${rdt.toLocaleString("th-TH")}${minBefore?` (ล่วงหน้า ${minBefore} นาที)`:""}</div>
+      <p style="font-size:13px;color:var(--text2);margin-bottom:15px">${esc((note.content||"").slice(0,120))}</p>
+      <button class="btn btn-green" onclick="this.closest('.reminder-popup').remove();this.closest('.reminder-popup')?.previousElementSibling?.remove();document.querySelectorAll('.overlay.show').forEach(o=>o.style.display='none')">รับทราบ</button>
+    </div>`;
+  document.body.appendChild(div);
+  try { new Audio("data:audio/wav;base64,UklGRl9vT19teleWQVZFZm10").play().catch(()=>{}); } catch(e){}
+}
+setInterval(checkReminders, 30000);
+checkReminders();
+
+// Init theme
+const savedTheme = localStorage.getItem("theme");
+if (savedTheme === "light") { darkMode = false; document.body.dataset.theme = "light"; document.getElementById("themeToggle").textContent = "🌙"; }
+
+// Init
+renderTabs();
+renderList();
+
+// PWA: Register Service Worker
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js').catch(() => {});
+}
+
+// PWA: Install prompt
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  const installBtn = document.createElement('button');
+  installBtn.textContent = '📲 ติดตั้งแอป';
+  installBtn.className = 'fab';
+  installBtn.style.cssText = 'position:fixed;bottom:24px;left:20px;width:auto;padding:0 16px;font-size:14px;border-radius:28px;background:#27ae60';
+  installBtn.onclick = async () => {
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    if (outcome === 'accepted') installBtn.remove();
+    deferredPrompt = null;
+  };
+  document.body.appendChild(installBtn);
+});
+</script>
+</body>
+</html>
